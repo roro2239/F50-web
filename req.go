@@ -13,6 +13,32 @@ import (
 
 var HOST string = "127.0.0.1"
 
+func initHost() {
+	for _, host := range []string{"127.0.0.1", "192.168.0.1"} {
+		client := &http.Client{
+			Timeout: 3 * time.Second,
+		}
+		uri := "http://" + host + ":8080/goform/goform_get_cmd_process?isTest=false&cmd=LD"
+		req, err := http.NewRequest("GET", uri, nil)
+		if err != nil {
+			continue
+		}
+		req.Header.Set("Referer", "http://"+host+":8080")
+		resp, err := client.Do(req)
+		if err != nil {
+			continue
+		}
+		_, _ = io.Copy(io.Discard, resp.Body)
+		_ = resp.Body.Close()
+		if resp.StatusCode > 0 {
+			HOST = host
+			print("原厂后台地址:", HOST+":8080")
+			return
+		}
+	}
+	print("原厂后台地址探测失败，继续使用:", HOST+":8080")
+}
+
 func reqGet(uri string) (body []byte, err error) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,

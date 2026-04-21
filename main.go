@@ -25,15 +25,19 @@ func main() {
 			print("主进程异常退出:", fmt.Sprint(r))
 		}
 	}()
+	print("主进程启动")
 	initRuntime()
+	print("运行目录:", baseDir)
 	CONF()
 	if cfgInfo == nil {
 		print("配置初始化失败")
 		return
 	}
+	initHost()
 	startServer()
 
 	if onF50 {
+		print("F50模式初始化")
 		adbPort := strconv.Itoa(cfgInfo.Section("").Key("adbPort").MustInt(5555))
 		if err := rootShell(`
 # 删除可能存在的旧规则
@@ -67,8 +71,12 @@ start adbd
 		loginPwd = "09C03C6E345EC522F36D345F43BD65C2B2D0A44DED07DC309AACF87BF376B363"
 	}
 
+	print("进入登录保活循环")
 	for {
 		time.Sleep(time.Second * 10)
+		if loginPwd == "" {
+			continue
+		}
 		msg, err := getCMD("LD")
 		if err != nil {
 			print(err)

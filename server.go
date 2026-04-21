@@ -460,8 +460,11 @@ func goformSetCmdProcess(w http.ResponseWriter, r *http.Request) {
 	if v, ok := r.PostForm["goformId"]; ok {
 		if pw, ok := r.PostForm["password"]; ok && v[0] == "LOGIN" {
 			logi = true
-			pwd := SHA256(loginPwd + ZTELD) //Wa@9w+YWRtaW4=
-			if len(pw) > 0 && pwd != pw[0] {
+			pwd := ""
+			if loginPwd != "" && ZTELD != "" {
+				pwd = SHA256(loginPwd + ZTELD) //Wa@9w+YWRtaW4=
+			}
+			if pwd != "" && len(pw) > 0 && pwd != pw[0] {
 				logi = false
 			}
 		}
