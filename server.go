@@ -59,12 +59,12 @@ var Battery int
 var BatteryCharging bool
 
 func atwatAPI(w http.ResponseWriter, r *http.Request) {
+	// 获取请求路径
+	path := r.URL.Path
 	if !isLogin(w, r) {
 		json.NewEncoder(w).Encode(map[string]string{"loginfo": "no"})
 		return
 	}
-	// 获取请求路径
-	path := r.URL.Path
 	var ttydSock = func(sockPath string) {
 		// 升级当前连接为 WebSocket
 		var upgrader = websocket.Upgrader{
@@ -347,35 +347,32 @@ func extractClientIP(addr string) string {
 }
 func isLogin(w http.ResponseWriter, r *http.Request) bool {
 	cookie, err := r.Cookie("token")
-	if err != nil {
-		return false
-	}
-	storeMutex.RLock()
-	sessionInfo, exists := sessionStore[cookie.Value]
-	storeMutex.RUnlock()
-	if !exists || time.Now().After(sessionInfo.ExpiresAt) {
-		return false
-	}
-	// 续期逻辑
-	newExpiresAt := time.Now().Add(1 * time.Hour)
-	storeMutex.Lock()
-	sessionStore[cookie.Value] = SessionInfo{
-		ExpiresAt: newExpiresAt,
-		ClientIP:  extractClientIP(r.RemoteAddr),
-	}
+	if err == nil {
+		storeMutex.RLock()
+		sessionInfo, exists := sessionStore[cookie.Value]
+		storeMutex.RUnlock()
+		if exists && !time.Now().After(sessionInfo.ExpiresAt) {
+			newExpiresAt := time.Now().Add(1 * time.Hour)
+			storeMutex.Lock()
+			sessionStore[cookie.Value] = SessionInfo{
+				ExpiresAt: newExpiresAt,
+				ClientIP:  extractClientIP(r.RemoteAddr),
+			}
 
-	storeMutex.Unlock()
+			storeMutex.Unlock()
 
-	http.SetCookie(w, &http.Cookie{
-		Name:     "token",
-		Value:    cookie.Value,
-		Expires:  newExpiresAt,
-		Path:     "/",
-		Secure:   false,
-		HttpOnly: true,
-	})
-
-	return true
+			http.SetCookie(w, &http.Cookie{
+				Name:     "token",
+				Value:    cookie.Value,
+				Expires:  newExpiresAt,
+				Path:     "/",
+				Secure:   false,
+				HttpOnly: true,
+			})
+			return true
+		}
+	}
+	return false
 }
 
 func generateSessionToken() string {

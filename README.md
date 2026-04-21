@@ -25,16 +25,16 @@ F50-web 使用说明
 
 三、后台保活运行
 
-推荐使用发布包 `f50-web-arm64-package.zip`，解压到 `/data/local/tmp/f50-web/` 后执行：
+推荐使用发布包 `f50-web-arm64-package.zip`，解压到 `/data/F50web/` 后执行：
 
 ```sh
-su -c 'cd /data/local/tmp/f50-web && chmod 755 f50-web-arm64 scripts/*.sh && ./scripts/start-android.sh'
+su -c 'cd /data/F50web && chmod 755 f50-web-arm64 scripts/*.sh && ./scripts/start-android.sh'
 ```
 
 停止服务：
 
 ```sh
-su -c 'cd /data/local/tmp/f50-web && ./scripts/stop-android.sh'
+su -c 'cd /data/F50web && ./scripts/stop-android.sh'
 ```
 
 保活脚本会检测主进程状态，主进程退出后会自动重新拉起。

@@ -1,18 +1,17 @@
 //<script>
 (() => {
   const CARD_ID = 'f50_web_plugin_card';
-  const BASE_DIR = '/data/local/tmp/f50-web';
+  const BASE_DIR = '/data/F50web';
   const BIN_PATH = `${BASE_DIR}/f50-web-arm64`;
   const START_SCRIPT = `${BASE_DIR}/scripts/start-android.sh`;
   const STOP_SCRIPT = `${BASE_DIR}/scripts/stop-android.sh`;
-  const INSTALL_SCRIPT = '/data/local/tmp/f50-web-install.sh';
+  const INSTALL_SCRIPT = `${BASE_DIR}/f50-web-install.sh`;
   const INSTALL_LOG = `${BASE_DIR}/install.log`;
   const BOOT_SCRIPT = '/sdcard/ufi_tools_boot.sh';
   const BOOT_MARK = '# F50-WEB-UFI-TOOLS';
   const BOOT_LINE = `cd ${BASE_DIR} && sh ${START_SCRIPT} ${BOOT_MARK}`;
   const LATEST_API =
     'https://gitee.com/api/v5/repos/su-su2239/F50-web/releases/latest';
-  const RELEASES_URL = 'https://gitee.com/su-su2239/F50-web/releases';
   const PACKAGE_NAME = 'f50-web-arm64-package.zip';
 
   if (document.getElementById(CARD_ID)) return;
@@ -151,8 +150,8 @@ echo "boot=$BOOT_OK"
       `DOWNLOAD_URL="${downloadUrl}"`,
       `TAG_NAME="${tag}"`,
       `BASE_DIR="${BASE_DIR}"`,
-      'TMP_DIR="/data/local/tmp/f50-web-new"',
-      'PKG="/data/local/tmp/f50-web-arm64-package.zip"',
+      'TMP_DIR="${BASE_DIR}/.tmp-install"',
+      'PKG="${BASE_DIR}/f50-web-arm64-package.zip"',
       `LOG_FILE="${INSTALL_LOG}"`,
       'CURL_BIN="/data/data/com.minikano.f50_sms/files/curl"',
       'if [ -e "$BASE_DIR" ] && [ ! -d "$BASE_DIR" ]; then',
@@ -201,6 +200,7 @@ echo "boot=$BOOT_OK"
   const startBackgroundInstall = async (downloadUrl, tag) => {
     const script = buildInstallScript(downloadUrl, tag);
     const command = [
+      `mkdir -p "${BASE_DIR}"`,
       `cat > "${INSTALL_SCRIPT}" <<'F50_WEB_INSTALL_EOF'`,
       script,
       'F50_WEB_INSTALL_EOF',
@@ -337,7 +337,6 @@ echo BOOT_ON
                 <button class="btn" id="f50_web_restart_btn">重启</button>
                 <button class="btn" id="f50_web_boot_btn">开机自启</button>
                 <button class="btn" id="f50_web_open_btn">打开网页</button>
-                <button class="btn" id="f50_web_release_btn">发布页</button>
             </div>
         </div>
     </div>
@@ -356,9 +355,6 @@ echo BOOT_ON
     document.querySelector('#f50_web_restart_btn').onclick = restartService;
     document.querySelector('#f50_web_boot_btn').onclick = toggleBoot;
     document.querySelector('#f50_web_open_btn').onclick = openWeb;
-    document.querySelector('#f50_web_release_btn').onclick = () => {
-      window.open(RELEASES_URL, '_blank');
-    };
 
     collapseGen('#collapse_f50_web_btn', '#collapse_f50_web', '#collapse_f50_web', () => {
       refreshStatus();
