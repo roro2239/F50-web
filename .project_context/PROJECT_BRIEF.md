@@ -1,6 +1,6 @@
 # 项目概览
 
-F50-web 是面向中兴 F50 设备的 Go 后台程序，负责接管原设备 Web 管理入口并扩展 ADB、AT 命令、短信转发、ttyd、iptables 管理等能力。
+F50-web 是面向中兴 F50 设备的 Go 后台程序，负责接管原设备 Web 管理入口并扩展 ADB、AT 命令、短信转发、ttyd、iptables 管理等能力。项目地址为 https://github.com/roro2239/F50-web。项目基于 https://gitee.com/atwat/F50-web/tree/master/web 的 Web 资源与相关实现改造。
 
 # 技术栈
 
@@ -34,7 +34,7 @@ F50-web 是面向中兴 F50 设备的 Go 后台程序，负责接管原设备 We
 
 # 当前任务状态
 
-已完成从 `Termux` 运行时到“原生二进制 + 原生目录”模式的基础改造。当前代码已切换到统一运行目录、原生 `sh`，并已移除 `ddns-go`、`AList` 的前后端入口。本地构建产物已清理，新增 GitHub Actions release workflow 自动构建 `Android arm64` 二进制并用当前版本提交日志发布更新日志。
+已完成从 `Termux` 运行时到“原生二进制 + 原生目录”模式的基础改造。当前代码已切换到统一运行目录、原生 `sh`，并已移除 `ddns-go`、`AList` 的前后端入口。本地构建产物已清理，新增 GitHub Actions release workflow 自动构建 `Android arm64` 二进制并用当前版本提交日志发布更新日志。README 已删除在线安装说明，更新项目地址，并补充上游来源声明。
 
 # 下一步
 
