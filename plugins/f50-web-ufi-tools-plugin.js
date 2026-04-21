@@ -5,6 +5,7 @@
   const BIN_PATH = `${BASE_DIR}/f50-web-arm64`;
   const START_SCRIPT = `${BASE_DIR}/scripts/start-android.sh`;
   const STOP_SCRIPT = `${BASE_DIR}/scripts/stop-android.sh`;
+  const UNINSTALL_SCRIPT = `${BASE_DIR}/scripts/uninstall-android.sh`;
   const INSTALL_SCRIPT = `${BASE_DIR}/f50-web-install.sh`;
   const INSTALL_LOG = `${BASE_DIR}/install.log`;
   const BOOT_SCRIPT = '/sdcard/ufi_tools_boot.sh';
@@ -284,6 +285,25 @@ echo RESTART_DONE
     setTimeout(refreshStatus, 2500);
   };
 
+  const uninstallService = async () => {
+    if (!(await checkRoot())) return toast('没有开启高级功能，无法使用', 'red');
+    const res = await runShellWithRoot(
+      `
+if [ -x "${UNINSTALL_SCRIPT}" ]; then
+  cd "${BASE_DIR}" && sh "${UNINSTALL_SCRIPT}"
+else
+  if [ -x "${STOP_SCRIPT}" ]; then cd "${BASE_DIR}" && sh "${STOP_SCRIPT}" || true; fi
+  sed -i '/${BOOT_MARK}/d' "${BOOT_SCRIPT}" 2>/dev/null || true
+  rm -rf "${BASE_DIR}"
+  echo UNINSTALL_DONE
+fi
+      `,
+      60000,
+    );
+    toast(res.success ? '已卸载并恢复原后台' : `卸载失败：${res.content}`, res.success ? 'green' : 'red');
+    setTimeout(refreshStatus, 2500);
+  };
+
   const toggleBoot = async () => {
     if (!(await checkRoot())) return toast('没有开启高级功能，无法使用', 'red');
     const status = await refreshStatus();
@@ -335,6 +355,7 @@ echo BOOT_ON
                 <button class="btn" id="f50_web_install_btn">安装</button>
                 <button class="btn" id="f50_web_stop_btn">停止</button>
                 <button class="btn" id="f50_web_restart_btn">重启</button>
+                <button class="btn" id="f50_web_uninstall_btn">卸载</button>
                 <button class="btn" id="f50_web_boot_btn">开机自启</button>
                 <button class="btn" id="f50_web_open_btn">打开网页</button>
             </div>
@@ -353,6 +374,7 @@ echo BOOT_ON
     };
     document.querySelector('#f50_web_stop_btn').onclick = stopService;
     document.querySelector('#f50_web_restart_btn').onclick = restartService;
+    document.querySelector('#f50_web_uninstall_btn').onclick = uninstallService;
     document.querySelector('#f50_web_boot_btn').onclick = toggleBoot;
     document.querySelector('#f50_web_open_btn').onclick = openWeb;
 

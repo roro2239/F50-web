@@ -35,6 +35,12 @@ su -c 'cd /data/F50web && chmod 755 f50-web-arm64 scripts/*.sh && ./scripts/star
 
 ```sh
 su -c 'cd /data/F50web && ./scripts/stop-android.sh'
+
+卸载并恢复原厂后台：
+
+```sh
+su -c 'cd /data/F50web && ./scripts/uninstall-android.sh'
+```
 ```
 
 保活脚本会检测主进程状态，主进程退出后会自动重新拉起。
