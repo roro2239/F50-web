@@ -1,0 +1,236 @@
+<div class="alert alert-danger alert-custom colorRed" role="alert" data-bind="visible: isChargingExpired() || batteryTemperatureLevel() != '0'">
+    <div data-bind="visible: isChargingExpired" data-trans="battery_charging_expired"></div>
+    <div data-bind="visible: batteryTemperatureLevel() == '1'" data-trans="battery_temperature_level_1"></div>
+    <div data-bind="visible: batteryTemperatureLevel() == '2'" data-trans="battery_temperature_level_2"></div>
+    <div data-bind="visible: batteryTemperatureLevel() == '3'" data-trans="battery_temperature_level_3"></div>
+</div>
+<div class="page-title">
+    <img src="img/home_fill_black.png?v=1736213398713">
+    <h1 data-trans="Home"></h1>
+</div>
+<div id="innerContainerNoSim">
+    <div id="div-nosimcard"></div>
+    <div class="table-container pt-4 pb-5" data-bind="visible:page()==pageState.NO_SIM">
+        <div class="content mt-4 pt-3 pb-3">
+            <div class="row mb-3 mt-3">
+                <div class="col-12 text-center">
+                    <div>
+                        <img src="./img/img_insert_sim .png?v=1736213398713" />
+                    </div>
+                    <div class="mt-3">
+                        <span class="no_rule" data-trans="connetion_setttings_info"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="limit-container pt-4 pb-5" data-bind="visible:page()!=pageState.NO_SIM">
+        <div class="form-title" data-bind="visible:page()!=pageState.NO_SIM">
+            <h6 data-trans="pin_management"></h6>
+        </div>
+        <form id="frmPIN" data-bind="visible:page()==pageState.WAIT_PIN">
+            <div class="">
+                <div class="content">
+                    <div class="prompt">
+                        <p data-trans="enter_pin"></p>
+                        <p class="important-prompt" data-bind="visible:sim_pinnumber()>1">
+                            <span data-trans="attempts_left"></span> <span data-bind='text:sim_pinnumber'></span>
+                        </p>
+                        <p class="important-prompt" data-bind="visible:sim_pinnumber()==1" data-trans="last_enter_pin"></p>
+                    </div>
+                    <div class="row">
+                        <label class="col-1 col-form-label" for='txtPIN' data-trans='pin'></label>
+    
+                        <div class="col-10 col-md-6">
+                            <input id='txtPIN' autocomplete="off" name="txtPIN" type="password" class="required form-control noSimInput"
+                                    maxlength='8' data-bind="value:PIN, valueUpdate: 'keypress'"/>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <input id="btnPinApply" class="btn btn-primary" type="submit" data-trans="apply"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form id="frmPUK" data-bind="visible:page()==pageState.WAIT_PUK">
+            <div class="">
+                <div class="content">
+                    <div class="prompt">
+                        <p data-trans="enter_puk"></p>
+    
+                        <p class="important-prompt" data-bind="visible:pukNumber()>1">
+                            <span data-trans="attempts_left"></span> <span data-bind='text:pukNumber'></span>
+                        </p>
+    
+                        <p class="important-prompt" data-bind="visible:pukNumber()==1" data-trans="last_enter_puk"></p>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-12 col-md-3 col-form-label" for='txtPUK' data-trans='puk'></label>
+    
+                        <div class="col-12 col-md-6">
+                            <input id='txtPUK' autocomplete="off" name="txtPUK" type="password" class="required form-control noSimInput"
+                                    maxlength='8'
+                                    data-bind="value:PUK, valueUpdate: 'afterkeydown'"/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-12 col-md-3 col-form-label" for='txtNewPIN' data-trans='new_pin'></label>
+    
+                        <div class="col-12 col-md-6">
+                            <input id='txtNewPIN' autocomplete="off" name="txtNewPIN" type="password" class="required form-control noSimInput"
+                                    maxlength='8'
+                                    data-bind="value:newPIN, valueUpdate: 'afterkeydown'"/>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-12 col-md-3 col-form-label" for='txtConfirmPIN' data-trans='confirm_pin'></label>
+    
+                        <div class="col-12 col-md-6">
+                            <input id='txtConfirmPIN' autocomplete="off" name="txtConfirmPIN" type="password"
+                                    class="required form-control noSimInput"
+                                    maxlength='8' data-bind="value:confirmPIN, valueUpdate: 'afterkeydown'"/>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-buttons">
+                        <input id="btnPUKApply" class="btn btn-primary " type="submit" data-trans="apply"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>  
+    <div class="content" data-bind="visible:page()==pageState.PUK_LOCKED">
+            <div class="colorRed font18" data-trans="no_sim_card_message"></div>
+     </div> 
+</div>
+    
+
+
+<div class="row" style="margin-top:24px;" data-bind="visible: isHomePage">
+    <div class="col-12 col-md-12 col-xl-6">
+        <div id="homeContainer2">
+            <div class="form-title margin-bottom-20">
+                <h6 data-trans="features"></h6>
+            </div>
+            <div id="22" class="bottom_left row">
+                <div class="col-12 col-sm-6 col-xl-12 col-xxxl-6">
+                    <div class="FeaturesContainer" style="background: rgba(64,199,214,0.12);">
+                        <a href="#nfc_setting">
+                            <div class="row bottom_left_1">
+                                <div class="col-10">
+                                    <label class="top_data_11 center-block margin-top-5 icon-content-3" data-trans="nfc_settings"></label>
+                                </div>
+                                <div class="col-2" style="margin-left:-16px">
+                                    <img src="img/ic_nfc_home.png?v=1736213398713" alt="" />
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12 col-xxxl-6">
+                    <div class="FeaturesContainer" style="background: rgba(64,199,214,0.12);">
+                        <a href="#diagnosis">
+                            <div class="row bottom_left_1">
+                                <div class="col-10">
+                                    <label class="top_data_11 center-block margin-top-5 icon-content-4" data-trans="diagnosis">Diagnosis</label>
+                                </div>
+                                <div class="col-2" style="margin-left:-16px">
+                                    <img src="svg_img/network_diagnosis.svg" alt="" style="filter: invert(69%) sepia(83%) saturate(365%) hue-rotate(136deg) brightness(88%) contrast(89%);height:40px;">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div id="innerContainer" class=" col-md-12 col-xl-6 grid-margin stretch-card"> -->
+    <div id="3" class="col-12 col-md-12 col-xl-6" >
+        <div id="homeContainer3" >
+            <div class="row form-title col-12 margin-bottom-20">
+                <div class="col-6">
+                    <h6 data-trans="device_information"></h6>
+                </div>
+                <div class="col-6 text-right" style="white-space: nowrap;">
+                    <a href="#network_info" data-trans="more_detail">
+                    </a>
+                </div>
+            </div>
+            <div class="bottom_right">
+                <div id="31" class="row col-md-12 col-lg-12" style="font-size:14px">
+                    <!-- <div class="row">
+                        <div class="top_data_1 col-6">
+                            <label data-trans="sim_serial_number"></label>
+                        </div>
+                        <div class="col-6">
+                            <label data-bind="text: simSerialNumber"></label>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="top_data_1 col-6 col-md-6 col-xl-6">
+                            <label data-trans="imei"></label>
+                        </div>
+                        <div class=" col-6 col-md-6 col-xl-6">
+                            <label data-bind="text: imei"></label>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="top_data_1 col-6 col-md-6 col-xl-6">
+                            <label data-trans="imsi"></label>
+                        </div>
+                        <div class=" col-6 col-md-6 col-xl-6">
+                            <label data-bind="text: imsi"></label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row" data-bind="visible: notDataCard && hasWifi">
+                        <div class="top_data_1 col-6 col-md-6 col-xl-6">
+                            <label data-trans="wifi_range"></label>
+                        </div>
+                        <div class="col-6 col-md-6 col-xl-6">
+                            <label data-bind="attr: {'data-trans': wifiLongMode}"></label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="top_data_1 col-6 col-md-6 col-xl-6">
+                            <label data-trans="signal_strength_label"></label>
+                        </div>
+                        <div class="col-6 col-md-6 col-xl-6">
+                            <label id="fresh_signal_strength"></label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="top_data_1 col-6 col-md-6 col-xl-6">
+                            <label data-trans="software_version"></label>
+                        </div>
+                        <div class="col-6 col-md-6 col-xl-6">
+                            <label data-bind="text: sw_version" ></label>
+                        </div>
+                    </div> -->
+                </div>
+                <div id="32" style="margin-top:24px" class="row col-md-12 col-lg-12">
+                    <div class="row margin-top-10" >
+                        <div class="col-6 col-sm-4 text-center" id="h_qrcode_dhcp" data-bind="visible: showQrCode()&&(wifi_enable() == 'chip1'||wifi_enable() == 'chip2')">
+                            <div>
+                                <img src="./img/blacktrans.png?v=1736213398713" width="111" id="qrcode_img_dhcp" data-bind="attr: {src: qrcodeSrc}" />
+                            </div>
+                            <div>
+                                <span class="center-block margin-top-5" data-trans="wifi" data-bind="visible: !bandSteeringEnabled()"></span>
+                                <span class="center-block margin-top-5" data-trans="wifi" data-bind="visible: bandSteeringEnabled()"></span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 text-center" data-bind="visible: isSupportSmartLife">
+                            <div style="margin-top: 8px; margin-bottom: 8px;">
+                                <img src="./img/appqr.png?v=1736213398713" width="95"/>
+                            </div>
+                            <div>
+                                <span class="center-block margin-top-5" data-trans="applet_title"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

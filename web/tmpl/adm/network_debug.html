@@ -1,0 +1,182 @@
+<div class="page-title page-title-container">
+	<img src="svg_img/system_black.svg">
+	<h1 data-trans="network_debug"></h1>
+	<p data-trans="network_debug_note"></p>
+</div>
+<div id="innerContainer">
+	<div class="limit-container">
+		<div class="form-body">
+			<div class="form-title">
+				<h6 data-trans="network_band_selection"></h6>
+			</div>
+			<div class="row form-group">
+				<label class="col-md-3 side-right" data-trans="4G_band"></label>
+				<div class="col-md-9 row" id="ltediv">
+				</div>
+			</div>
+			<div class="form-buttons">
+				<div>
+					<input type="button" class="btn btn-primary" data-bind='click: saveBand4G' data-trans='apply' />
+				</div>
+			</div>
+			<div class="row form-group mt-3">
+				<label class="col-md-3 side-right" data-trans="5g_band"></label>
+				<div id="nr5gSaDiv" class="col-md-9 row">
+
+				</div>
+			</div>
+			<div class="form-buttons">
+				<div>
+					<input type="button" class="btn btn-primary" data-bind='click: saveNr5gSa' data-trans='apply' />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="table-container">
+		<div class="form-title mt-3">
+			<h6 data-trans="neighbor_cell_info"></h6>
+		</div>
+		<div class="content">
+			<div id="neighborCellInfo" class="fixTableScroll" data-bind="simpleGrid: gridTemplate"></div>
+		</div>
+	</div>
+	<div class="limit-container">
+		<div class="form-title">
+			<h6 data-trans="cell_lock"></h6>
+		</div>
+		<form id="cellLockForm">
+			<div class="content">
+				<div class="row mb-3">
+					<label class="col-md-4" data-trans="cell_type"></label>
+					<div class="col-md-3 col-12">
+						<input type="radio" name="cellTypeGrp" id="cellTypeLte" class="form-check-input" data-bind="checked: cellType" value="12"/>
+						<label class="form-check-label" for="cellTypeLte">4G</label>
+					</div>
+					<div class="col-md-3 col-12">
+						<input type="radio" name="cellTypeGrp" id="cellTypeNr" class="form-check-input" data-bind="checked: cellType" value="16"/>
+						<label class="form-check-label" for="cellTypeNr">5G</label>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" data-trans="pci"></label>
+					<div class="col-md-6 col-12">
+						<input id="pciInput" name="pciInput" type="text"
+							data-bind="value: pci_lock, valueUpdate: 'keypress'" class="required form-control"
+							maxlength="15">
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" data-trans="earfcn"></label>
+					<div class="col-md-6 col-12">
+						<input id="earfcnInput" name="earfcnInput" type="text"
+							data-bind="value: earfcn_lock, valueUpdate: 'keypress'" class="required form-control"
+							maxlength="15">
+					</div>
+				</div>
+			</div>
+			<div class="form-buttons">
+				<div>
+					<input type="submit" class="btn btn-primary" data-trans="apply" />
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="table-container">
+		<div class="form-title">
+			<h6 data-trans="locked_cell_info"></h6>
+		</div>
+		<div class="content">
+			<div id="lockedCellInfo" class="fixTableScroll" data-bind="simpleGrid: lockedGridTemplate"></div>
+		</div>
+		<div class="form-buttons">
+			<input type="button" class="btn btn-primary" data-bind='click: clearLockedInfo' data-trans='unlock_all' />
+		</div>
+	</div>
+
+
+	<div class="limit-container">
+		<div class="form-title">
+			<h6>发送AT命令</h6>
+		</div>
+		<form id="atCommandForm">
+			<div class="content">
+				<div class="row mb-3">
+					<label class="col-md-4">Channel</label>
+					<div class="col-md-3 col-12">
+						<input type="radio" name="channel" id="channel0" class="form-check-input" value="0" checked />
+						<label class="form-check-label" for="channel0">0</label>
+					</div>
+					<div class="col-md-3 col-12">
+						<input type="radio" name="channel" id="channel1" class="form-check-input" value="1" />
+						<label class="form-check-label" for="channel1">1</label>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label">AT命令</label>
+					<div class="col-md-6 col-12">
+						<input id="atCommandInput" type="text" class="required form-control" maxlength="255">
+						<label id="atCommandInput-error" class="error" for="atCommandInput" style="display: none;">必填项</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-buttons">
+				<div>
+					<input type="button" class="btn btn-primary" value="发送" onclick="sendATCommand()" />
+				</div>
+			</div>
+			<div class="row mt-3">
+				<label class="col-md-4 col-form-label">命令结果</label>
+				<div class="col-md-8 col-12">
+					<textarea id="commandResult" class="form-control" rows="5" readonly></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+
+<script>
+function sendATCommand() {
+    // 获取选中的channel
+    const channel = document.querySelector('input[name="channel"]:checked').value;
+    // 获取AT命令
+    const command = document.getElementById('atCommandInput').value;
+    
+    // 检查是否输入了命令
+    const errorLabel = document.getElementById('atCommandInput-error');
+    if (!command) {
+        errorLabel.style.display = 'block';
+        return;
+    } else {
+        errorLabel.style.display = 'none';
+    }
+    
+    // 显示正在发送的状态
+    document.getElementById('commandResult').value = '正在发送命令...';
+    
+    // 使用AJAX发送请求
+    fetch('/atwat/atcmd', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"channel": channel, "AT": command}),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('网络响应不正常');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // 显示结果
+		document.getElementById('commandResult').value = data.result;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('commandResult').value = '请求失败: ' + error;
+    });
+}
+</script>
+
+
+</div>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="f50-web-arm64-package">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/f50-web-arm64-package.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

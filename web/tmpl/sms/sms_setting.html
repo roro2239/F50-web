@@ -1,0 +1,46 @@
+
+<div class="page-title">
+    <img src="svg_img/sms_black.svg">
+    <h1 data-trans="sms_setting"></h1>
+</div>
+<div id="innerContainer">
+    <div class="limit-container">
+      
+<form id="smsSettingForm">
+    <!-- <div class="row mb-3">
+      <label class="col-md-4 col-form-label" for='txtValidity' data-trans='sms_validity'></label>
+      <div class="col-md-6 ">
+        <select data-transid='sms_validity' id="txtValidity" class="form-control" data-bind="options: modes, value: selectedMode, optionsText: transOption('sms_validity'), optionsValue: 'value'"></select>
+      </div>
+    </div> -->
+    <div class="row mb-3">
+      <label class="col-md-4 col-form-label" for='txtCenterNumber' data-trans='center_number'></label>
+      <div class="col-md-6 ">
+        <input id='txtCenterNumber' name="txtCenterNumber" type="text" data-bind="value: centerNumber" class="required form-control" maxlength='21'/>
+      </div>
+    </div>
+    <!-- <div class="row mb-3">
+      <label class="col-md-4 col-form-label" data-trans='delivery_report'></label>
+      <div class="col-md-2 col-12">
+        <input type="radio" name="deliveryReport" class="form-check-input" id="reportOn" data-bind="checked: deliveryReport" value="1"/>
+        <label for="reportOn" data-trans="enable"></label>
+      </div>
+      <div class="col-md-2 col-12">
+        <input type="radio" name="deliveryReport" class="form-check-input" id="reportOff" data-bind="checked: deliveryReport" value="0"/>
+        <label for="reportOff" data-trans="disable"></label>
+      </div>
+    </div> -->
+    <div class="form-buttons">
+      <input type="submit" class="btn btn-primary" data-trans="apply"/>
+      <a href="#sms"><input type="button" class="btn btn-primary back-btn" data-trans="back"/></a>
+    </div>
+  </form>
+        <div class="form-note">
+            <div class="notes-title">&nbsp;</div>
+            <ul class="notes-content">
+                <li data-trans="sms_setting_note_center_number"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+

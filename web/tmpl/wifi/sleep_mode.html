@@ -1,0 +1,29 @@
+<div class="page-title">
+    <img src="svg_img/system_black.svg">
+    <h1 data-trans="wifi_sleep"></h1>
+</div>
+<div id="innerContainer">
+    <div class="limit-container">
+        <form id='sleepModeForm'>
+            <div class="content">
+                <div class="row mb-3">
+                    <label class="col-md-4 col-form-label" for='mode' data-trans='sleep_time'></label>
+                    <div class="col-md-6 col-12">
+                        <select data-transid='sleep_mode' id="mode"
+                            data-bind="options: modes, value: selectedMode, optionsText: transOption('sleep_mode'), optionsValue: 'value'"
+                            class="form-control form-select"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <input type="submit" class="btn btn-primary" data-trans='apply' />
+            </div>
+            <div class="form-note">
+                <div class="notes-title">&nbsp;</div>
+                <ul class="notes-content">
+                    <li data-trans="wifi_sleep_note_info"></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>

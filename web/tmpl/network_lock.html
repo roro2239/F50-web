@@ -1,0 +1,33 @@
+<div class="page-title">
+    <img src="img/home_fill_black.png?v=1736213398713">
+    <h1 data-trans="Home"></h1>
+</div>
+<div id="innerContainer">
+    <div class="limit-container" id="div-network-lock">        
+        <form id="frmNetworkLock">
+            <div class="">
+                <div class="content">
+                    <p class="colorRed font18" data-trans="network_locked"></p>
+                    <div data-bind="visible:supportUnlock && times()>0">
+                        <p data-trans="network_locked_explain"></p>
+                        <p>
+                            <span data-trans="network_locked_times_explain"></span>
+                            <span data-bind="text:times"></span>
+                        </p>
+                        <div class="row">
+                            <label class="col-md-3" for="txtLockNumber" data-trans="network_locked_enter_explain"></label>
+                            <div class="col-md-6">
+                                <input type="text" class="required form-control" maxlength="16" id="txtLockNumber" name="txtLockNumber"
+                                    data-bind="value:unlockCode,valueUpdate: 'keypress'"/>
+                            </div>
+                        </div>
+                    </div>
+                    <p data-bind="visible:supportUnlock && times()==0" data-trans="network_locked_zero_times"></p>
+                </div>
+                <div class="form-buttons" data-bind="visible:supportUnlock && times()>0">
+                    <input type="submit" data-trans="ok" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

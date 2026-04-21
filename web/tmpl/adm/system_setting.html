@@ -1,0 +1,123 @@
+<div class="page-title">
+	<img src="svg_img/system_black.svg"> <h1 data-trans="system_setting"></h1>
+</div>
+
+<div id="innerContainer">
+    <div id = "shutdown_div" class="limit-container">
+        <div class="form-title">
+            <h6 data-trans="shutdown"></h2>
+        </div>
+        <form id="frmShutDown" role="form">
+            <div class="row form-buttons">
+                <label class="col-md-6 side-left" data-trans='shutdown_device'></label>
+                <div class="col-md-6" style="padding: 0;">
+                    <input type="button" class="btn btn-primary" data-trans="shutdown" data-bind="click: shutdown"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id = "restart_div" class="limit-container">
+        <div class="form-title">
+            <h6 data-trans="restart"></h2>
+        </div>
+        <form id="frmRestart" role="form">
+            <div class="row form-buttons">
+                <label class="col-md-6 side-left" data-trans='restart-now'></label>
+                <div class="col-md-6" style="padding: 0;">
+                    <input type="submit" class="btn btn-primary" data-trans="restart-now"/>
+                </div>
+            </div>
+        </form>
+        <div class="row help-info">
+            <label class="col-12 side-left" data-trans="restart_info"></label>
+        </div>
+    </div>
+    <div id = "scheduledre_start_div" class="limit-container">
+        <div class="form-title">
+            <h6 data-trans="scheduled_restart"></h2>
+        </div>
+        <form id="enableRebootFrm">
+            <div class="content">
+                <div class="row mb-3">
+                    <label class="col-8 col-md-4  col-sm-6 col-form-label" data-trans="scheduled_restart"></label>
+                    <div class="col-3 form-switch">
+                        <input class="form-check-input" type="checkbox" name="isAllowedRebootSwitch" id="isAllowedRebootSwitch" data-bind="checked : isAllowedReboot" />
+                    </div>
+                </div>
+                <div class="row help-info pb-3">
+                    <label class="col-12 side-left" data-trans="restart_schedule_note"></label>
+                </div>
+                <div data-bind="visible:isAllowedReboot">
+                    <div class="row mb-3">
+                        <label class="col-8 col-md-4  col-form-label" for="restartRule" data-trans="restart_rule"></label>
+                        <div class="col-md-6">
+                            <select id="restartRule" class="form-control form-select" data-transid="restart_rule" data-bind="options: restartRules, value: isRebootMode, optionsText: transOption('restart_rule'), optionsValue: 'value'"></select>
+                            </div>
+                    </div>
+                    <div id="weeks" data-bind="visible:isRebootMode()=='1'">
+                        <div class="row mb-3">
+                            <label data-trans="week" class="col-8 col-md-4 col-form-label"></label>
+                            <div class="col-md-6 paddingright5">
+                                <select id="intervalWeekSelect" class="form-control form-select" data-transid="daylightSavingTime_week" data-bind="options: intervalWeeks, value: currentIntervalWeek, optionsText: transOption('daylightSavingTime_week'), optionsValue: 'value'"></select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="weekTimeHour" data-trans="restart_time" class="col-8 col-md-4 col-form-label"></label>
+                            <div class="col-md-6 paddingright5">
+                                <select id="restartTimes" class="form-control form-select" data-bind="options: restartTimes, value: weekHour, optionsText: 'text', optionsValue: 'value'"></select>
+                            </div>
+                            <div id="weekTimeError"></div>
+                        </div>
+                    </div>
+                    <div id="days" data-bind="visible:isRebootMode()=='2'">
+                        <div class="row mb-3">
+                            <label data-trans="interval_date" class="col-8 col-md-4 col-form-label"></label>
+                            <div class="col-md-6 paddingright5">
+                                <select id="intervalDaySelect" class="form-control form-select" data-bind="options: intervalDay, value: currentIntervals, optionsText: 'text', optionsValue: 'value'"></select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="monthTimeHour" data-trans="restart_time" class="col-8 col-md-4  col-form-label"></label>
+                            <div class="col-md-6 paddingright5">
+                                <select  class="form-control form-select" data-bind="options: restartTimes, value: monthHour, optionsText: 'text', optionsValue: 'value'"></select>
+                            </div>
+                            <div id="intervalTimeError"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <input type="submit" class="btn btn-primary" data-trans="apply"/>
+            </div>
+            <div class="form-note">
+                <div class="notes-title">&nbsp;</div>
+                <ul class="notes-content">
+                    <li data-trans="restart_rule"></li>
+				    <li class="no-style">
+                        <ul>
+                            <li data-trans="restart_schedule_note_week"></li>
+                            <li data-trans="restart_schedule_note_interval"></li>
+                        </ul>
+				    </li>
+                </ul>
+            </div>
+
+        </form>
+    </div>
+	<div id = "reset_div" class="limit-container">
+        <div class="form-title">
+            <h6 data-trans="restore"></h2>
+        </div>
+        <form id="frmRestore" role="form">
+            <div class="row form-buttons">
+                <label class="col-md-6 side-left" data-trans='restore'></label>
+                <div class="col-md-6" style="padding: 0;">
+                    <input type="submit" class="btn btn-primary" data-trans="restore"/>
+                </div>
+            </div>
+        </form>
+        <div class="row help-info">
+            <label class="col-12 side-left" data-trans="restore_note"></label>
+        </div>
+    </div>
+</div>

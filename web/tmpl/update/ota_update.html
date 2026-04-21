@@ -1,0 +1,93 @@
+<div class="page-title">
+	<img src="svg_img/file_upload_black.svg"> <h1 data-trans="ota_update"></h1>
+</div>
+<div id="innerContainer">
+	<div class="limit-container">
+		<form id="frmOTAUpdate" role="form">
+			<div class="form-title">
+				<h6 data-trans="ota_update_setting"></h6>
+			</div>			
+			<div class="content form-body">
+				<div class="row mb-3">
+					<label class="col-8 col-md-4  col-sm-6  side-right" data-trans="ota_auto_update_switch"></label>
+					<div class="col-3 form-switch">						
+						<input class="form-check-input" type="checkbox" name="updateMode" id="updateMode" data-bind="checked : updateMode" />
+					</div>
+				</div>
+				<div class="row help-info pb-3" data-bind="visible: updateMode">
+					<label class="col-12 side-right" data-trans="ota_auto_update_intro_info"></label>
+				</div>
+				<div class="row mb-3">
+					<div class="col-md-12">
+						<input class="form-check-input" id="chkUpdateRoamPermission" name="chkUpdateRoamPermission" type="checkbox" data-bind="checked: allowRoamingUpdate" value="1">
+						<label class="form-check-label"  style="display: inline;" for="chkUpdateRoamPermission" data-trans="ota_update_roaming_remind"></label>
+					</div>
+				</div>
+			</div>
+			<div class="form-buttons">
+				<input id="btnApply" type="submit" class="btn btn-primary" data-trans="apply" />
+			</div>
+		</form>
+		
+		<div id="signal_router_check_version" data-bind="visible:meshNetworkStatus() != '1'">
+			<div class="form-title">
+				<h6 data-trans="ota_check_update"></h6>
+			</div>	
+			<div class="row mb-3">
+				<label class="col-5 col-md-4 col-sm-4  side-right" data-trans="ota_last_update_check"></label>
+				<div class="col-6">
+					<span data-bind="text: lastCheckTime"></span>
+				</div>
+			</div>
+			<div class="form-buttons">
+				<input id="btnCheckNewVersion" type="button" class="btn btn-primary"
+						data-trans="ota_check_new_version" data-bind="click:checkNewVersion('1')"/>
+			</div>			
+		</div>
+		
+	</div>
+	<div id="mesh_device_version_info" class="table-container" data-bind="visible:meshNetworkStatus() == '1'">
+		<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th width="10%" data-trans="device"></th>
+						<th width="10%" data-trans="dlna_device_name"></th>
+						<th width="15%" data-trans="mac_address"></th>
+						<th width="30%" data-trans="update_current_version"></th>
+						<th width="35%" data-trans="update_new_version"></th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach:meshDevicesVersion">
+					<tr data-bind="css: {odd: $index() % 2 == 0, even: $index() % 2 != 0}">
+						<td><img data-bind="attr:{src: nodeTypeImg}" /></td>
+						<td data-bind="text: deviceName"></td>
+						<td data-bind="text: macAddress"></td>
+						<td>
+							<span data-bind="text: currentVersion"></span>
+						</td>
+						<td>
+							<!-- <span data-bind="visible:!checkingNewVersion,text: newVersion"></span> -->
+							<div class="modal-dialog" style="height:30px;" data-bind="visible:checkingNewVersion" >
+										<div class="spinner-border" style="height:30px; width:30px;" role="status">
+											<span class="visually-hidden"></span>
+										</div>
+										<div id="loadMsg"></div>
+							</div>
+							<span data-bind="visible:!checkingNewVersion,text: updateBtnText"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="form-buttons">
+			<input id="checkAllNodeBtnApply" type="button" class="btn btn-primary"
+				data-trans="mesh_fota_update_all_device"
+				data-bind="click:meshDeviceCheckUpdateAllDevices, enable: enableCheck" />
+			<input id="updateAllNodeBtnApply" type="button" class="btn btn-primary"
+				data-trans="all_update_settings"
+				data-bind="click:updateAllMeshDeviceDevices, enable: enableUpdate" />
+		</div>
+	</div>
+</div>

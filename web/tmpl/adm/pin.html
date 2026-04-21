@@ -1,0 +1,135 @@
+<div class="page-title">
+	<img src="svg_img/network.svg"> <h1 data-trans="pin_management"></h1>
+</div>
+<div id="innerContainer">
+	<div class="limit-container">
+		<form id="form_sim_management">
+			<div class="content form-body">
+				<div class="row mb-3">
+					<label class="col-8 col-md-4  col-sm-6" data-trans="sim_pin_lock"></label>
+					<div class="col-3 form-switch">							
+						<input class="form-check-input" type="checkbox" name="sim_pin_lock_switch" id="sim_pin_lock_switch" data-bind="checked : sim_pin_lock_switch">
+					</div>
+				</div>
+
+				<div class="row mb-3 hide"  data-bind="visible:sim_pin_lock_switch">
+					<label class="col-8 col-md-4  col-sm-6" data-trans="save_pin_code"></label>
+					<div class="col-3 form-switch">							
+						<input class="form-check-input" type="checkbox" name="sim_pin_save_switch" id="sim_pin_save_switch" data-bind="checked : sim_pin_save_flag">
+					</div>
+				</div>
+			
+			</div>
+		</form>
+		
+		<form id="form_change_pin" data-bind="visible:sim_pin_lock_switch">
+			<div class="form-title" style="border-top: 1px solid #eee;padding-top: 10px;top: 10px;">
+				<h6 data-trans="modify_pin"></h6>
+			</div>
+			<div class="content form-body">
+				<div class="row mb-3" data-bind="visible:sim_pinnumber() > 1">
+					<label class="col-md-4"></label>
+					<div class="col-md-6 col-12">
+						<span data-trans="attempts_left"></span>
+						<span data-bind='text:sim_pinnumber'></span>
+					</div>
+				</div>
+				<div class="row mb-3" data-bind="visible:sim_pinnumber() == 1">
+					<label class="col-md-12" data-trans="last_enter_pin"></label>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" data-trans="current_pin" for="txtPin"></label>
+					<div class="col-md-6 col-12">
+						<input type="password" name="txtPin" id="txtPin" class="required form-control" data-bind="value: txtPin" maxlength="8"/>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" data-trans="new_pin" for="txtNewPin"></label>
+					<div class="col-md-6 col-12">
+						<input type="password" name="txtNewPin" id="txtNewPin" class="required form-control" data-bind="value: txtNewPin" maxlength="8"/>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" data-trans="confirm_pin" for="txtConfirmPin"></label>
+					<div class="col-md-6 col-12">
+						<input type="password" name="txtConfirmPin" id="txtConfirmPin" class="required form-control" data-bind="value: txtConfirmPin" maxlength="8"/>
+					</div>
+				</div>
+				<div class="form-buttons">
+					<input type="submit" class="btn btn-primary" data-trans='apply' />
+				</div>
+			
+			</div>
+		</form>
+	</div>
+</div>
+
+<div id="enableDisableSimPinModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-trans="sim_pin_lock"></h5>
+                <button type="button" class="btn-close"  data-bind="click: cancelSimPinLockSet" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="enable_disable_sim_pin_form">
+					<div class="row mb-3" data-bind="visible:sim_pinnumber() > 1">
+						<label class="col-md-4"></label>
+						<div class="col-md-6 col-12">
+							<span data-trans="attempts_left"></span>
+                            <span data-bind='text:sim_pinnumber'></span>
+						</div>
+					</div>
+					<div class="row mb-3" data-bind="visible:sim_pinnumber() == 1">
+						<label class="col-md-12" data-trans="last_enter_pin"></label>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" data-trans="pin" for="txtCurrentPin"></label>
+                        <div class="col-md-6 col-12">
+                            <input type="password" name="txtCurrentPin" id="txtCurrentPin" class="required form-control" data-bind="value: currentPin" maxlength="8"/>
+                        </div>
+					</div>
+					<div class="modal-footer center-button">
+						<input type="submit" class="btn btn-primary" data-trans='apply' />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div id="setSavePinModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-trans="save_pin_code"></h5>
+                <button type="button" class="btn-close"  data-bind="click: cancelSavePinSet" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="set_save_pin_flag_form">
+					<div class="row mb-3" data-bind="visible:sim_pinnumber() > 1">
+						<label class="col-md-4"></label>
+						<div class="col-md-6 col-12">
+							<span data-trans="attempts_left"></span>
+                            <span data-bind='text:sim_pinnumber'></span>
+						</div>
+					</div>
+					<div class="row mb-3" data-bind="visible:sim_pinnumber() == 1">
+						<label class="col-md-12" data-trans="last_enter_pin"></label>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" data-trans="pin" for="txtPin"></label>
+                        <div class="col-md-6 col-12">
+                            <input type="password" name="txtPin" id="txtPin" class="required form-control" data-bind="value: currentPin" maxlength="8"/>
+                        </div>
+					</div>
+					<div class="modal-footer center-button">
+						<input type="submit" class="btn btn-primary" data-trans='apply' />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>

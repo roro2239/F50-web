@@ -1,0 +1,41 @@
+# 项目概览
+
+F50-web 是面向中兴 F50 设备的 Go 后台程序，负责接管原设备 Web 管理入口并扩展 ADB、AT 命令、短信转发、ttyd、iptables 管理等能力。
+
+# 技术栈
+
+- Go
+- 嵌入式静态资源 `embed`
+- SQLite
+- SMB
+- HTTP / WebSocket
+
+# 目录结构
+
+- `main.go`：主入口
+- `server.go`：HTTP 服务与 API
+- `rootShell.go`：通过 Samba `root preexec` 执行 root 脚本
+- `cmd.go`：外部命令执行器与附加服务启动
+- `web/`：嵌入式管理页面资源
+
+# 关键模块
+
+- 登录与转发：`req.go`、`server.go`
+- root 执行链路：`rootShell.go`
+- ADB 代理：`adbSafe.go`
+- 系统监控：`sys.go`
+- 扩展服务：`cmd.go`
+
+# 构建与运行
+
+- 目标平台：Android `arm64`
+- 已补齐 `go.mod`
+- 需要 Android NDK 才能完成 `sqlite3` 的 CGO 交叉编译
+
+# 当前任务状态
+
+已完成从 `Termux` 运行时到“原生二进制 + 原生目录 + 启动脚本”模式的基础改造。当前代码已切换到统一运行目录、原生 `sh`，并已移除 `ddns-go`、`AList` 运行链路，构建出 `dist/f50-web-arm64`。
+
+# 下一步
+
+将 `dist/f50-web-arm64` 与 `scripts/start-android.sh`、可选的 `bin/ttyd` 一并部署到设备目录，使用 root 执行启动脚本。

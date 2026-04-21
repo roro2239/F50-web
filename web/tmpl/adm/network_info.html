@@ -1,0 +1,145 @@
+<div class="page-title">
+	<img src="svg_img/system_black.svg"> <h1 data-trans="device_information"></h1>
+</div>
+<div id="innerContainer" class="form-body">
+    <div class="limit-container" id="dialog_div">
+		
+		<div class="form-title">
+			<h6 data-trans="network_info"></h6>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="34g_frequency"></label>
+			<label class="col-12  col-sm-6" id="fresh_34g_frequency"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="34g_usedBand"></label>
+			<label class="col-12  col-sm-6" style="word-wrap: break-word;padding-right: 0px;" id="fresh_used_band"></label>
+		</div>	
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="34g_signal_strength_label"></label>
+			<label class="col-12  col-sm-6" id="fresh_signal_network"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="34g_sinr"></label>
+			<label class="col-12  col-sm-6" id="fresh_34g_sinr"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="34g_4g_pci"></label>
+			<label class="col-12  col-sm-6" id="fresh_4g_pci"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="34g_cell_id"></label>
+			<label class="col-12  col-sm-6" id="fresh_cell_id"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="4g_ca_status"></label>
+			<label class="col-12  col-sm-6" id="fresh_4g_ca_status"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="5g_frequency"></label>
+			<label class="col-12  col-sm-6" id="fresh_5g_frequency"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="usedBand5g"></label>
+			<label class="col-12  col-sm-6" id="fresh_used_band_5g"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="signal_strength_label_5g"></label>
+			<label class="col-12  col-sm-6" id="fresh_signal_network_5g"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="5g_sinr"></label>
+			<label class="col-12  col-sm-6" id="fresh_sinr"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="5g_pci"></label>
+			<label class="col-12  col-sm-6" id="fresh_5g_pci"></label>
+		</div>
+		<div class="row form-group information-stlye" style="margin-bottom:32px;">
+			<label class="col-12  col-sm-6" data-trans="5g_cell_id"></label>
+			<label class="col-12  col-sm-6" id="fresh_5g_cell_id"></label>
+		</div>
+
+		<div class="form-title">
+			<h6 data-trans="wifi_info"></h6>
+		</div>
+		<div data-bind="visible:!wifiSwitch()" style="margin-bottom:32px;" data-trans="wifi_is_off">
+		</div>
+		<div data-bind="visible:wifiSwitch()">
+			<div class="row form-group information-stlye" data-bind="visible:wifi24gMainEnable()">
+				<label class="col-12  col-sm-6" data-trans="network_name"></label>
+				<label class="col-12  col-sm-6" data-bind="text: wifiSsid24gMain"></label>
+			</div>
+			<div class="row form-group information-stlye" style="margin-bottom:32px;" data-bind="visible:wifi24gMainEnable() || wifi24gGuestEnable()">
+				<label class="col-12  col-sm-6" data-trans="max_station_number"></label>
+				<label class="col-12  col-sm-6" data-bind="text: max_access_num_24g"></label>
+			</div>
+			<div class="row form-group information-stlye" data-bind="visible:wifi5gMainEnable()">
+				<label class="col-12  col-sm-6" data-trans="network_name"></label>
+				<label class="col-12  col-sm-6" data-bind="text: wifiSsid5gMain"></label>
+			</div>
+			<div class="row form-group information-stlye" style="margin-bottom:32px;" data-bind="visible:wifi5gMainEnable() || wifi5gGuestEnable()">
+				<label class="col-12  col-sm-6" data-trans="max_station_number"></label>
+				<label class="col-12  col-sm-6" data-bind="text: max_access_num_5g"></label>
+			</div>
+		</div>
+
+		<div class="form-title">
+			<h6 data-trans="basic_info"></h6>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6">ICCID</label>
+			<label class="col-12  col-sm-6" data-bind="text: iccid"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="imei"></label>
+			<label class="col-12  col-sm-6" data-bind="text: imei"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="imsi"></label>
+			<label class="col-12  col-sm-6" data-bind="text: imsi"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="lan_domain"></label>
+			<label class="col-12  col-sm-6" data-bind="text: lanDomain"></label>
+		</div>
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="gateway_ip_address"></label>
+			<label class="col-12  col-sm-6" data-bind="text: ip_address"></label>
+		</div>
+		<div class="row form-group information-stlye" data-bind="visible: showMwWan2IpAddress()">
+			<label class="col-12  col-sm-6" data-trans="wired_wan_ip_address"></label>
+			<label class="col-12  col-sm-6" data-bind="text: mwWan2IpAddress"></label>
+		</div>
+		<div class="row form-group information-stlye" data-bind="visible: showMwWan2IpAddress()">
+			<label class="col-12  col-sm-6" data-trans="wired_ipv6_wan_ip_address"></label>
+			<label class="col-12  col-sm-6" data-bind="text: mwWan2Ipv6Address"></label>
+		</div>
+		<div class="row form-group information-stlye" data-bind="visible: showIpv4WanIpAddr() && !showMwWan2IpAddress()">
+			<label class="col-12  col-sm-6" data-trans="wan_ip_address" ></label>
+			<label class="col-12  col-sm-6" data-bind="text: wanIpAddress"></label>
+		</div>
+		<div class="row form-group information-stlye" data-bind="visible: showIpv4WanIpAddr() &&  showMwWan2IpAddress()">
+			<label class="col-12  col-sm-6" data-trans="wireless_wan_ip_address"></label>
+			<label class="col-12  col-sm-6" data-bind="text: wanIpAddress"></label>
+		</div>
+
+		<div class="row form-group information-stlye" data-bind="visible: showIpv6WanIpAddr() && !showMwWan2IpAddress()">
+			<label class="col-12  col-sm-6" data-trans="ipv6_wan_ip_address"></label>
+			<label class="col-12  col-sm-6" data-bind="text: ipv6WanIpAddress"></label>
+		</div>
+		<div class="row form-group information-stlye" data-bind="visible:  showIpv6WanIpAddr() && showMwWan2IpAddress()">
+			<label class="col-12  col-sm-6" data-trans="wireless_ipv6_wan_ip_address"></label>
+			<label class="col-12  col-sm-6" data-bind="text: ipv6WanIpAddress"></label>
+		</div>
+
+		<div class="row form-group information-stlye">
+			<label class="col-12  col-sm-6" data-trans="software_version"></label>
+			<label class="col-12  col-sm-6" data-bind="text: sw_version"></label>
+		</div>
+		<div class="row form-group information-stlye">
+            <label class="col-12  col-sm-6" data-trans="hardware_version"></label>
+            <label class="col-12  col-sm-6" data-bind="text: hw_version"></label>
+        </div>
+    </div>
+</div>

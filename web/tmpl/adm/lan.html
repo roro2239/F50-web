@@ -1,0 +1,106 @@
+<div class="page-title">
+    <img src="svg_img/router_black.svg">
+    <h1 data-trans="router_dbcp"></h1>
+</div>
+<div id="innerContainer">
+    <form id="frmLan" class="limit-container">
+        <div class="content form-body">
+            <div class="row mb-3">
+                <label class="col-md-4 side-right col-form-label" for="txtIpAddress" data-trans="ip_address"></label>
+                <div class="col-md-6 col-12">
+                    <input type="text" name="txtIpAddress" data-bind="value: ipAddress" id="txtIpAddress" class="required form-control" maxlength="15"
+                    />
+                </div>
+            </div>
+            <div class="row help-info pb-4">
+                <label class="col-12 side-left" data-trans="lan_ip_address_info"></label>
+            </div>
+            <div class="row mb-3">
+                <label class="col-md-4 side-right col-form-label" for="txtSubnetMask" data-trans="subnet_mask"></label>
+                <div class="col-md-6 col-12">
+                    <input type="text" name="txtSubnetMask" data-bind="value: subnetMask" id="txtSubnetMask" class="required form-control" maxlength="15"
+                    />
+                </div>
+            </div>
+            <div class="row mb-3" data-bind="visible: showMacAddress() && hasWifi()">
+                <label class="col-md-4 side-right col-form-label" for="txtMacAddress" data-trans="mac_address"></label>
+                <div class="col-md-6 col-12">
+                    <input type="text" name="txtMacAddress" data-bind="value: macAddress" id="txtMacAddress" class="required form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-8 col-md-4  col-sm-6" data-trans="dhcp_server"></label>
+                <div class="col-3 form-switch">
+                    <input class="form-check-input" type="checkbox" name="dhcpServer" data-bind="checked : dhcpServer" />
+                </div>
+            </div>
+            <div class="row mb-3" data-bind='visible: dhcpServer() == "1"'>
+                <label class="col-8 col-md-4  col-sm-6 col-form-label" for="txtDhcpIpPoolStart" data-trans="dhcp_ip_pool"></label>
+                <div class="col-md-6 col-12 row">
+                    <div class="width-48">
+                        <input type="text" name="txtDhcpIpPoolStart" data-bind="value: dhcpStart" id="txtDhcpIpPoolStart" class="required form-control"
+                            maxlength="15" />
+                    </div>
+                    -
+                    <div class="width-48">
+                        <input type="text" name="txtDhcpIpPoolEnd" data-bind="value: dhcpEnd" id="txtDhcpIpPoolEnd" class="required form-control"
+                            maxlength="15" />
+                    </div>
+                </div>
+                <div class="col-8 offset-md-4" id="dhcpIpPoolErrorDiv"></div>
+            </div>
+            <div class="row help-info pb-4" data-bind='visible: dhcpServer() == "1"'>
+                <label class="col-12 side-left" data-trans="dhcp_ip_pool_info"></label>
+            </div>
+
+            <div class="row mb-3">
+                <label id="txtDhcpLease" class="col-8 col-md-4  col-sm-6 col-form-label" for="txtDhcpLease" data-trans="dhcp_lease"></label>
+                <div class="col-md-2 col-12">
+                    <input type="text" name="txtDhcpLease" data-bind="value: dhcpLease" id="txtDhcpLease" class="required form-control" maxlength="5"
+                    />
+                </div>
+                <div class="col-md-2 col-12 col-form-label" data-trans="hours" id="leaseLabel">
+                </div>
+                <div class="col-8 offset-md-4" id="errorHolder"></div>
+            </div>
+            <div class="row help-info">
+                <label class="col-12 side-left" data-trans="dhcp_lease_info"></label>
+            </div>
+            <div class="form-buttons">
+                <input type="submit" class="btn btn-primary" data-trans='apply' />
+            </div>
+        </div>
+        <div class="form-note">
+            <div class="notes-title">&nbsp;</div>
+            <ul class="notes-content">
+                <li data-trans="lan_note_dhcp_server_enable"></li>
+                <li data-trans="lan_note_dhcp_server_disable"></li>
+            </ul>
+        </div>
+    </form>
+    <form id="frmMtu" class="limit-container">
+        <div class="form-title">
+            <h6 data-trans="mtu_title"></h6>
+        </div>
+        <div class="form-title-info">
+			<label  data-trans="mtu_title_info"></label>
+		</div>
+        <div class="content form-body">
+            <div class="row mb-3">
+                <label class="col-md-4 side-right col-form-label" for="mtuText" data-trans="MTU"></label>
+                <div class="col-md-6 col-12">
+                    <input type="text" name="mtuText" data-bind="value: mtuValue" id="mtuText" class="required form-control" maxlength="4" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-md-4 side-right col-form-label" for="mssText" data-trans="MSS"></label>
+                <div class="col-md-6 col-12">
+                    <input type="text" name="mssText" data-bind="value: mssValue" id="mssText" class="required form-control" maxlength="4" />
+                </div>
+            </div>
+            <div class="form-buttons">
+                    <input type="submit" class="btn btn-primary" data-trans='apply' />
+            </div>
+        </div>
+    </form>
+</div>

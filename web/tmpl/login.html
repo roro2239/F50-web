@@ -1,0 +1,99 @@
+
+
+    <div class="row">
+        <div id="loginForms" class="align-middle">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 position-relative top-50 start-50 translate-middle mt-4 mt-xl-5" id="login-form-container">
+            <div class="login_frame form-horizontal login-info-container" id="loginContainer" data-bind="visible:pageState()!=4">
+                <form id="frmLogin" data-bind="visible:pageState()==0">
+                    <div class="row colorRed" data-bind="visible: loginSecuritySupport() && accountLocked()">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <span data-trans="password_error_account_lock"></span> <span data-bind="text: leftUnlockTime"></span>
+                        </div>
+                    </div>
+                    <div class="row" style="display: none;">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <label data-trans="password" for="txtPwd"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-md-7 col-lg-7 position-relative">
+                            <span class="pass-icon"></span>
+                            <input id="txtPwd" autocomplete="off" class="required form-control" data-placeholder="password" type="password" data-bind="value:password, visible:!showPassword(), valueUpdate: 'keypress'" maxlength="32" name="txtPwd"/>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <input id="btnLogin" class="btn btn-primary btn-block mt-md-0 mt-lg-0 mt-3 col-12" type="submit" data-trans="login" />
+                        </div>
+                    </div>
+                    <div class="row " data-bind="visible: showEntrance">
+                        <div class="col-xs-12" data-bind="visible: !sharePathInvalid()">
+                            <span class="icon"><img src="img/icon_red.png?v=1736213398713"></span>
+                            <span class="scan">
+                                <a href="#httpshare_guest" data-trans="browse_sdcard"></a>
+                            </span>
+                        </div>
+                        <div class="col-xs-12 colorRed" data-trans="sd_share_path_invalid" data-bind="visible: sharePathInvalid()"></div>
+                        <div class="clear"></div>
+                    </div>
+                </form>
+                <div data-bind="visible:pageState()==5" style="text-align: center;">
+                    <div class="spinner-border m-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+	    </div>
+
+        <div class="form-horizontal" id="loginContainer" data-bind="visible:pageState()!=4 && pageState()!=5">
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6 mt-3 position-relative">
+                    <div class="login-info-container px-4 py-3">
+                        <div class="row">
+                            <div class="form-title col-12">
+                                <h6 data-trans="network"></h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-12 text-black-50" data-trans="signal_strength"></label>
+                            <label class="col-12" data-bind="text:signalStrength"></label>
+                        </div>
+                        <div class="row py-2 py-xl-3">
+                            <label class="col-12 text-black-50" data-trans="network_provider"></label>
+                            <label class="col-12" data-bind="text:networkOperator"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 mt-3">
+                    <div class="login-info-container px-4 py-3">
+                        <div class="row">
+                            <div class="form-title col-12">
+                                <h6 data-trans="wifi"></h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-12 text-black-50" data-trans="network_name"></label>
+                            <label class="col-12 word-break-all" data-bind="text:ssid24g"></label>
+                        </div>
+                        <!-- <div class="row py-2 py-xl-3">
+                            <label class="col-12 text-black-50" data-trans="5G_wifi"></label>
+                            <label class="col-12" data-bind="text:ssid5g"></label>
+                        </div> -->
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-horizontal mt-3 mt-xl-5" data-bind="visible:pageState()!=5">
+            <div class="row" data-bind="visible: isSupportSmartLife">
+                <div class="col-12">
+                    <div class="text-center">
+                        <img width="100px" height="100px" src="./img/appqr.png?v=1736213398713" />
+                        <div class="text-center" data-trans="applet_title"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+

@@ -1,0 +1,122 @@
+<div class="page-title">
+	<img src="svg_img/wifi_black.svg"> <h1 data-trans="wifi_wireless_settings"></h1>
+</div>
+<div id="innerContainer">
+<form id="frmWifiSwitch" role="form">
+	<div class="content limit-container">
+		<div class="row mb-3" data-bind="visible: hasWifiSwitch">
+			<label class="col-8 col-md-4 col-sm-6 side-right" data-trans="wifi"></label>
+			<div class="col-8 col-md-8 col-sm-6 ">
+				<div class="row" style="white-space:nowrap;">
+					<div class="col-md-3 col-12">
+						<input type="radio" class="form-check-input" name="wifi_switch" id="wifi_switch_24G_disable"
+							   data-bind="checked: wifi_enable" value="chip1"/>
+						<label for="wifi_switch_24G_disable" data-trans="24g_wifi"></label>
+					</div>
+					<div class="col-md-3 col-12">
+						<input type="radio" class="form-check-input" name="wifi_switch" id="wifi_switch_5G_enable"
+							   data-bind="checked: wifi_enable" value="chip2"/>
+						<label for="wifi_switch_5G_enable" data-trans="5g_wifi"></label>
+					</div>
+					<div class="col-md-3 col-12">
+						<input type="radio" class="form-check-input" name="wifi_switch" id="wifi_switch_all_disable"
+							   data-bind="checked: wifi_enable" value="0"/>
+						<label for="wifi_switch_all_disable" data-trans="off"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-buttons">
+			<input id="wifi_switch_apply" type="submit" class="btn btn-primary" data-trans='apply' />
+		</div>
+		<div class="form-note">
+			<div class="notes-title">&nbsp;</div>
+			<ul class="notes-content">
+				<li data-trans="wifi_switch_info"></li>
+			</ul>
+		</div>
+	</div>
+</form>
+
+	<div data-bind="visible:origin_main_ssid_enable() == 'chip1' || origin_main_ssid_enable() =='chip2'" class="limit-container">  
+		<form id="frmSSID1">
+			<div class="form-title">
+				<h6 data-trans="wifi_basic"></h6>
+			</div>
+			<div class="content form-body ">
+				<div class="row mb-3">
+					<label class="col-md-4  col-form-label" for="ssid" data-trans="network_name"></label>
+					<div class="col-md-6 col-12">
+						<input type="text" name="ssid" data-bind="value: ssid" id="ssid"
+							class="required form-control" maxlength="32" />
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 d-md-block d-none "></label>
+					<div class="col-md-8">
+						<input class="form-check-input" id="broadcastCheckbox" name="broadcastCheckbox" type="checkbox"
+								data-bind="checked: broadcast()" value="1" />
+						<label class="form-check-label" for="broadcastCheckbox" data-trans="wifi_broadcast_desc"></label>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" for='securityMode'
+						data-trans='security_mode'></label>
+
+					<div class="col-md-6 col-12">
+						<select data-transid='security_mode' id="securityMode" class="form-control form-select"
+							data-bind="options: securityModes, value: selectedSecurityMode, optionsText: transOption('security_mode'), optionsValue: 'value', event:{change: securityModeChangeHandler}"></select>
+					</div>
+				</div>
+				<div id="passwordContainer" class="row mb-3" data-bind='visible: selectedSecurityMode() != "OPEN"'>
+					<label class="col-md-4 col-form-label" for='pass' data-trans='pass_phrase'></label>
+					<div class="col-md-6 col-12 position-relative">
+							<span class="pass-icon"></span>
+						<input id='pass' name="pass" type="password" data-bind="value: passPhrase,visible:!showPassword()"
+							class="required form-control" minlength='8' maxlength='63' />
+						<div id="lblShowPassword" class="clear"></div>
+					</div>
+					<div class="col-md-2 col-2 Strength-div-md ">
+						<div class="Strength">
+							<div id="passStrength">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3" data-bind="visible: hasQRImg">
+						<div class="col-12 col-md-4 col-sm-6 pt-4">
+							<label class="side-right" data-trans="wifi_qrcode"></label>
+							<label class="help-info side-right" data-trans="wifi_qrcode_scan_title"></label>
+						</div>
+						<div class="col-12 col-sm-6">
+							<img src="" data-bind="attr: {src: qrcode_ssid1}" width="100" alt="" />
+						</div>
+				</div>
+				<div class="row mb-3" data-bind="visible: origin_band_steering_enable() == '0'">
+					<label class="col-12 col-md-4 " for="m_maxStation" data-trans="max_station_number"></label>
+					<div class="col-12 col-md-6">
+						<select name="maxStation" id="maxStation" class="form-control form-select" data-bind="options: maxStations, value: selectedStation, optionsText: 'text', optionsValue: 'value'"></select>
+					</div>
+				</div>
+			</div>
+			<div class="form-buttons">
+				<input id="ssid1_apply_24G" type="submit" class="btn btn-primary" data-trans='apply' />
+			</div>
+		</form>
+		<div class="form-note">
+			<div class="notes-title">&nbsp;</div>
+			<ul class="notes-content">
+				<li data-trans="wifi_basic_note_security_mode"></li>
+				<li class="no-style">
+					<ul>
+						<li data-trans="wifi_basic_note_no_encryption"></li>
+						<li data-trans="wifi_basic_note_wpa_psk_aes"></li>
+						<li data-trans="wifi_basic_note_wpa_psk_3"></li>
+						<li data-trans="wifi_basic_note_wpa_psk_23"></li>
+					</ul>
+				</li>
+				<li data-trans="wifi_basic_note_max_station_number"></li>
+			</ul>
+		</div>
+	</div>
+</div>

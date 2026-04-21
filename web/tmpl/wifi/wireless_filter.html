@@ -1,0 +1,214 @@
+<div class="page-title">
+    <img src="svg_img/phonelink_black.svg"> 
+    <h1 data-trans='wireless_filter'></h1>
+</div>
+<div id="innerContainer">
+   <div id="black_div" class="table-container" data-bind="visible: supportBlock && macFilterEnableOri()==2">
+        <div class="form-title clearfix">
+            <div class="float-start">
+                <h6 data-trans="black_list"></h6>
+            </div>
+            <div class="float-end table-count-container">
+                <span data-trans="devices_num"></span>
+                <span data-bind="text: blockCount"></span>
+            </div>
+        </div>
+        <div class="content" style="padding: 2.5rem 0  0.5rem 0;" data-bind="visible: blockCount() == '0' ">
+                <div style="text-align:center" class="mb-4">
+                        <img src="./img/img_empty_nodevice.png?v=1736213398713" />
+                </div>
+                <div class="mb-4">
+                    <p style="text-align:center; max-width:400px; margin: 0 auto;"  data-trans="no_devices"></p>
+                </div>				
+        </div>
+        <table class="table table-hover devcie-table">
+            <tbody data-bind="foreach:blackDevices">
+                <tr>
+                    <td>
+                    <div class="row" style="padding: 0.75rem 0;">
+                            <div class="device-img">
+                                <img data-bind="attr: {src: true ? './img/router_windows.png?v=1736213398713' : './img/router_windows.png?v=1736213398713'}"
+                                    height="56" />
+                            </div>
+                            <div class="device-container row">
+                                <div>
+                                    <span data-bind="text: hostName, attr: {id: 'hostname_txt_'+idx}" style="word-break:break-all;"></span>&nbsp&nbsp
+                                    <!-- <span style="color:rgb(0,0,0,.54);" data-bind="html: connectedBand"></span>  -->
+                                        <a data-bind="click: $root.editHostNameHandler, attr: {id: 'edit_btn_'+idx}" class="cursorhand">
+                                            <img class="icon-action" src="./svg_img/note.svg" height="18">
+                                        </a>
+                                </div>
+                                <div class="col-md-9 col-xl-10 row" style="color:rgb(0,0,0,.54); font-size:14px;">
+                                    <div class="width-xl-260 col-md-7">
+                                        <span data-trans="mac_address"></span>:&nbsp<span data-bind="text: macAddress"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xl-2 device-action">
+                                    <!-- <a data-bind="attr: {id: 'bindIP_text_'+idx}, click: $root.bindingIpHandler">
+                                        <img src="./svg_img/ip_link.svg" height="24">
+                                    </a>  -->
+                                    <a data-bind="click: $root.blacklistRemoveHandler"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-tooltip-trans="delete" class="tooltip-delete">
+                                        <img class="icon-action" src="./svg_img/delete.svg" height="24">
+                                    </a>
+                                </div>
+                                
+                            </div>
+                    </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>  
+        <div class="form-buttons">
+                <input type="button" class="btn btn-primary" data-trans="add_new" data-bind="click: addBlackMac">
+         </div>
+    </div>
+    <div id="white_div" class="table-container" data-bind="visible: macFilterEnableOri()==1">
+            <div class="form-title clearfix">
+                <div class="float-start">
+                    <h6 data-trans="white_list"></h6>
+                </div>
+                <div class="float-end table-count-container">
+                    <span data-trans="devices_num"></span>
+                    <span data-bind="text: whiteCount"></span>
+                </div>
+            </div>
+            <div class="content" style="padding: 2.5rem 0  0.5rem 0;" data-bind="visible: whiteCount() == '0' ">
+                    <div style="text-align:center" class="mb-4">
+                            <img src="./img/img_empty_nodevice.png?v=1736213398713" />
+                    </div>
+                    <div class="mb-4">
+                        <p style="text-align:center; max-width:400px; margin: 0 auto;" data-trans="no_devices"></p>
+                    </div>				
+            </div>
+            <table class="table table-hover devcie-table">
+                <tbody data-bind="foreach: whiteList">
+                    <tr>
+                        <td>
+                        <div class="row" style="padding: 0.75rem 0;">
+                                <div class="device-img">
+                                    <img data-bind="attr: {src: true ? './img/router_windows.png?v=1736213398713' : './img/router_windows.png?v=1736213398713'}"
+                                        height="56" />
+                                </div>
+                                <div class="device-container row">
+                                    <div>
+                                        <span data-bind="text: hostName, attr: {id: 'hostname_txt_'+idx}" style="word-break:break-all;"></span>&nbsp&nbsp
+                                        <!-- <span style="color:rgb(0,0,0,.54);" data-bind="html: connectedBand"></span>  -->
+                                            <a data-bind="click: $root.editHostNameHandler, attr: {id: 'edit_btn_'+idx}" class="cursorhand">
+                                                <img class="icon-action" src="./svg_img/note.svg" height="18">
+                                            </a>
+                                    </div>
+                                    <div class="col-md-9 col-xl-10 row" style="color:rgb(0,0,0,.54); font-size:14px;">
+                                        <div class="width-xl-260 col-md-7">
+                                            <span data-trans="mac_address"></span>:&nbsp<span data-bind="text: macAddress"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-xl-2 device-action">
+                                        <!-- <a data-bind="attr: {id: 'bindIP_text_'+idx}, click: $root.bindingIpHandler">
+                                            <img src="./svg_img/ip_link.svg" height="24">
+                                        </a>  -->
+                                        <a data-bind="click: $root.removeFromWhiteList,visible:isNew==false">
+                                            <img class="icon-action" src="./svg_img/delete.svg" height="24">
+                                        </a>
+                                    </div>
+                                    
+                                </div>
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>  
+            <div class="form-buttons">
+                    <input type="button" class="btn btn-primary" data-trans="add_new" data-bind="click: addWhiteMac">
+             </div>
+    </div>
+</div>
+
+<div id="editHostNameModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-trans="edit"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="saveHostNameForm">
+                        <div class="row">
+                            <label class="col-12"  style="width: 130px;" data-trans="host_name"></label>
+                                <div class="col-12 col-sm-8">
+                                    <input type="text" name="device_name" data-bind="value: device_name" id="device_name"
+                                            class="required deviceNameCheck form-control" maxlength="32" />
+                                </div>
+                        </div>
+                </form>   
+            </div>
+            <div class="modal-footer center-button">
+                <input type="button" class="btn btn-primary" data-trans="save" data-bind="click: saveHostName"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addBlackMacModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-trans="add_new"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addBlackMacForm">
+                        <div class="row mb-3">
+                            <label class="col-12 col-sm-4" data-trans="host_name"></label>
+                            <div class="col-12 col-sm-8">
+                                <input type="text" name="black_host_name" data-bind="value: black_host_name" id="black_host_name"
+                                        class="required deviceNameCheck form-control" maxlength="32" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-12 col-sm-4" data-trans="mac_address"></label>
+                            <div class="col-12 col-sm-8">
+                                <input type="text" name="black_mac_address" data-bind="value: black_mac_address" id="black_mac_address"
+                                        class="required form-control" maxlength="32" />
+                            </div>
+                        </div>
+                </form>   
+            </div>
+            <div class="modal-footer center-button">
+                <input type="button" class="btn btn-primary" data-trans="save" data-bind="click: saveNewBlack"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="addWhiteMacModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" data-trans="add_new"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addWhiteMacForm">
+                            <div class="row mb-3">
+                                <label class="col-12 col-sm-4" data-trans="host_name"></label>
+                                <div class="col-12 col-sm-8">
+                                    <input type="text" name="white_host_name" data-bind="value: white_host_name" id="white_host_name"
+                                            class="required deviceNameCheck form-control" maxlength="32" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-12 col-sm-4" data-trans="mac_address"></label>
+                                <div class="col-12 col-sm-8">
+                                    <input type="text" name="white_mac_address" data-bind="value: white_mac_address" id="white_mac_address"
+                                            class="required form-control" maxlength="32" />
+                                </div>
+                            </div>
+                    </form>   
+                </div>
+                <div class="modal-footer center-button">
+                    <input type="button" class="btn btn-primary" data-trans="save" data-bind="click: saveNewWhite"/>
+                </div>
+            </div>
+        </div>
+    </div>

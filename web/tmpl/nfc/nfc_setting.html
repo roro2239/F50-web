@@ -1,0 +1,56 @@
+<div class="page-title">
+    <img src="svg_img/wifi_black.svg">
+    <h1 data-trans="nfc_settings"></h1>
+</div>
+<div id="innerContainer">
+    <form role="form">
+        <div class="table-container">
+            <div class="row mb-3" style="text-align: center;">
+                <span>
+                    <img class="paddingbottom6" id="nfc_guide" src="./img/img_connect_nfc.png?v=1736213398713" />
+                </span>
+            </div>
+            <div class="row mb-4" style="text-align: center;">
+                <span class="col-sm-12 side-right color-black-54"  data-trans="nfc_settings_info"></span>
+            </div>
+            <div class="row mb-3">
+                <label class="col-8 col-md-4  col-sm-6  side-right" data-trans="nfc_settings"></label>
+                <div class="col-3 form-switch">
+                    <input class="form-check-input" type="checkbox" name="nfcGrp" id="nfcEnable" data-bind="checked: nfcSwitch, click: setNfcSwitch, enable: isShowwifiAPS"/>
+                </div>
+            </div>
+            <div class="row help-info pb-3">
+                <label class="col-12 side-right" data-trans="nfc_switch_info"></label>
+            </div>
+        </div>
+
+        <div class="limit-container" data-bind="visible:nfcSwitch() == '1' || !isShowwifiAPS()">
+            <div class="row mb-3">
+                <div class="form-title">
+                    <h6 data-trans="wifi"></h6>
+                </div>
+                <label class="col-sm-4 col-form-label" data-trans='Wi-Fi'></label>
+                <div class="col-sm-6" data-bind="visible: isShowwifiAPS()">
+                    <span data-bind="text: nfcSsid"></span>
+                </div>
+                <div class="col-sm-6" data-bind="visible: !isShowwifiAPS()">
+                    <label class="colorRed" data-trans="wifi_wrong_jump_login"></label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-10">
+                    <span class="side-right" data-trans="nfc_setting_redirect_wifi_setting"></span>
+                    <a data-trans="click_link_pointing" href="#wifi_main_ssid"></a>
+                </div>
+            </div>
+            </form>
+            <!-- <div class="form-note">
+                <div class="notes-title">&nbsp;</div>
+                <ul class="notes-content">
+                    <li data-trans="nfc_function_intro"></li>
+                </ul>
+            </div> -->
+        </div>
+    </form>
+
+</div>

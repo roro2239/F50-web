@@ -1,0 +1,117 @@
+<div class="page-title">
+	<img src="svg_img/system_black.svg"> <h1 data-trans="diagnosis"></h1>
+    <p data-trans="diagnosis_info"></p>
+</div>
+<div id="innerContainer" class="form-body">
+    <div id="dialog_div">
+		<div class="limit-container">
+            <div class="form-title">
+                <h6 data-trans="network"></h6>
+            </div>
+            <div data-bind="visible: currWorkMode() != '' && currWorkMode() != 'change_network_mode_cable'">
+                <div class="row form-group  information-stlye">
+                    <label class="col-12 col-sm-5" data-trans="diag_sim"></label>
+                    <label class="col-8 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': simCardStatus}"></label>
+                    <a class="col-4 col-sm-3 device-action" href="#pin_management" data-trans="set_it" data-bind="visible: simCardStatus() == 'diag_sim_pin_required' || simCardStatus() == 'diag_sim_puk_required'"></a>
+                </div>
+                <div class="row form-group  diagnosis-alert" data-bind="visible: simCardStatus() != '' && simCardStatus() != 'diag_sim_ready'">
+                    <label class="col-12" data-trans="diag_sim_pin_required_info" data-bind="visible: simCardStatus() == 'diag_sim_pin_required'"></label>
+                    <label class="col-12" data-trans="diag_sim_puk_required_info" data-bind="visible: simCardStatus() == 'diag_sim_puk_required'"></label>
+                    <label class="col-12" data-trans="diag_sim_destroyed_info" data-bind="visible: simCardStatus() == 'diag_sim_destroyed'"></label>
+                    <label class="col-12" data-trans="diag_sim_locked_info" data-bind="visible: simCardStatus() == 'diag_sim_locked'"></label>
+                    <label class="col-12" data-trans="diag_sim_no_sim_info" data-bind="visible: simCardStatus() == 'diag_sim_no_sim'"></label>
+                </div>
+                <div class="row form-group  information-stlye">
+                    <label class="col-12  col-sm-5" data-trans='diag_network_register'></label>
+                    <label class="col-12  col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': network_register_result}"></label>
+                </div>
+                <div class="row form-group  diagnosis-alert" data-bind="visible: network_register_result() != '' && network_register_result() != 'diag_network_register_registered'">
+                    <label class="col-12" data-trans="diag_network_register_limited_service_info" data-bind="visible: network_register_result() == 'network_type_limited_service'"></label>
+                    <label class="col-12" data-trans="diag_network_register_no_service_info" data-bind="visible: network_register_result() == 'network_type_no_service'"></label>
+                </div>
+                
+                <div class="row form-group  information-stlye">
+                    <label class="col-12 col-sm-5" data-trans='diag_network_signal'></label>
+                    <label class="col-12 col-sm-4 diagnosis-result"><i class="signal" data-bind="attr:{'class': signalCssClass}">&nbsp;</i></label>
+                </div>
+                <div class="row form-group  information-stlye">
+                    <label class="col-12 col-sm-5" data-trans='diag_network_connection'></label>
+                    <label class="col-12 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': diag_network_connection}"></label>
+                    <div class="col-md-3 md-text-right" data-bind="visible: diag_network_connection() == 'connected' || diag_network_connection() == 'disconnected'">
+                        <input type="button" class="btn btn-primary" data-bind="attr: {'data-trans': diag_network_connection_btn}, click: dealNetworkConnection"/>
+                    </div>
+                </div>
+                <div class="row form-group  information-stlye">
+                    <label class="col-12 col-sm-5" data-trans='roaming_status'></label>
+                    <label class="col-12 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': roaming_status}"></label>
+                </div>
+            </div>
+            <div class="row form-group  information-stlye">
+                <label class="col-12 col-sm-5" data-trans='diag_dhcp_sever_status'></label>
+                <label class="col-12 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': dhcpServer}"></label>
+            </div>
+            <div data-bind="visible: currWorkMode() != '' && currWorkMode() != 'change_network_mode_cable'">
+                <div class="row form-group  information-stlye">
+                    <label class="col-12 col-sm-5" data-trans='APN'></label>
+                    <label class="col-8 col-sm-4 diagnosis-result" data-bind="attr:{'data-trans-data': currentApn, 'data-trans': apnMode}"></label>
+                    <a class="col-4 col-sm-3 device-action" href="#mobile_network" data-trans="set_it"></a>
+                </div>
+                <div class="row form-group  information-stlye">
+                    <label class="col-12 col-sm-5" data-trans='curr_data'></label>
+                    <label class="col-8 col-sm-4 diagnosis-result" data-bind="text:currData"></label>
+                    <a class="col-4 col-sm-3 device-action" href="#traffic_alert" data-trans="set_it"></a>
+                </div>
+            </div>
+        </div>
+        <div class="limit-container">
+            <div class="form-title mt-5">
+                <h6 data-trans="wifi"></h6>
+            </div>
+            <div class="row form-group  information-stlye">
+                <label class="col-12 col-sm-5" data-trans='diag_wifi_switch'></label>
+                <label class="col-8 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': wifiSwitch}"></label>
+                <a class="col-4 col-sm-3 device-action" href="#wifi_main_ssid" data-trans="set_it"></a>
+            </div>
+            <div class="row form-group  information-stlye">
+                <label class="col-12 col-sm-5" data-trans='diag_wifi_connected_devices'></label>
+                <label class="col-12 col-sm-4 diagnosis-result" data-bind="text: wifiAccessNum"></label>
+            </div>
+            <div data-bind="visible: wifiSwitch() == 'enable'">
+                <div data-bind="visible: mainWifi24Switch">
+                    <!-- <div class="row form-group  information-stlye mt-3">
+                        <label class="col-8 col-sm-10 section-title" data-trans="24g_wifi"></label>
+                        <a class="col-4 col-sm-3 device-action" href="#wifi_main_ssid" data-trans="set_it"></a>
+                    </div> -->
+                    <div class="row form-group  information-stlye">
+                        <label class="col-12 col-sm-5" data-trans='diag_wifi_broadcast'></label>
+                        <label class="col-12 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': MainWifi24ShowSsid}"></label>
+                    </div>
+                    <div class="row form-group  information-stlye">
+                        <label class="col-12 col-sm-5" data-trans='security_mode'></label>
+                        <label class="col-12 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': mainWifi24AuthMode}"></label>
+                    </div>
+                    <div class="row form-group  diagnosis-alert" data-bind="visible: mainWifi24AuthMode() == 'security_mode_WPA3PSK'">
+                        <label class="col-12" data-trans="diag_wifi_wpa3_info"></label>
+                    </div>
+                </div>
+                <div data-bind="visible: mainWifi5Switch">
+                    <!-- <div class="row form-group  information-stlye mt-3">
+                        <label class="col-8 col-sm-10 section-title" data-trans="5g_wifi"></label>
+                        <a class="col-4 col-sm-3 device-action" href="#wifi_main_ssid" data-trans="set_it"></a>
+                    </div> -->
+                    <div class="row form-group  information-stlye">
+                        <label class="col-12 col-sm-5" data-trans='diag_wifi_broadcast'></label>
+                        <label class="col-12 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': MainWifi5ShowSsid}"></label>
+                    </div>
+                    <div class="row form-group  information-stlye">
+                        <label class="col-12 col-sm-5" data-trans='security_mode'></label>
+                        <label class="col-12 col-sm-4 diagnosis-result" data-bind="attr: {'data-trans': mainWifi5AuthMode}"></label>
+                    </div>
+                    <div class="row form-group  diagnosis-alert" data-bind="visible: mainWifi5AuthMode() == 'security_mode_WPA3PSK'">
+                        <label class="col-12" data-trans="diag_wifi_wpa3_info"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

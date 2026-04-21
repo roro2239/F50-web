@@ -1,0 +1,203 @@
+<div class="page-title">
+	<img src="svg_img/data_usage_black.svg">
+	<h1 data-trans="data_usage"></h1>
+	<p data-trans="data_usage_info"></p>
+</div>
+<div id="innerContainer">
+	<div class="limit-container">
+		<div class="form-title">
+			<h6 data-trans="traffic_data_plan"></h6>
+		</div>
+		<div id="trafficAlertProgress"  data-bind="visible: oriDataLimitChecked()">
+			<div  class="row" data-bind="visible: dataLimitTypeChecked() == 1">
+				<div >
+					<span data-bind="text: leftDataDesc, attr:{'data-trans-data': leftDataDescData}"></span>
+				</div>
+			</div>
+			<div  class="row" data-bind="visible: dataLimitTypeChecked() == 0">
+				<div >
+					<span data-bind="text: leftTimeDesc, attr:{'data-trans-data': leftTimeDescData}"></span>
+				</div>
+			</div>
+			<div id='progress_datausage' style="padding:10px 0">
+				<div class="progress-content_datausage">
+					<div class="progress-bar-container_datausage">
+						<div id="bar_datausage_alertLine" class="progress-bar_datausage_alertLine" data-bind="visible: dataLimitChecked()"></div>
+						<div id="bar_datausage" class="progress-bar_datausage" data-bind="visible: dataLimitChecked()"></div>
+					</div>
+				</div>
+			</div>
+			<div  class="row mb-2" data-bind="visible: dataLimitTypeChecked() == 1">
+				<div >
+					<span data-trans="traffic_used_month"></span>
+					<span data-bind="text:usedDataTextDescData_progress"></span>
+					/
+					<span data-bind="text:limitDataMonthDescData_progress"></span>
+				</div>
+			</div>
+			<div  class="row mb-3" data-bind="visible: dataLimitTypeChecked() == 0">
+				<div>
+					<span data-trans="traffic_used_month"></span>
+					<span data-bind="text:usedTimeTextDescData_progress"></span>
+					/
+					<span data-bind="text:limitTimeMonthDescData_progress"></span>
+					<span data-trans="hours"></span>
+				</div>
+			</div>
+		</div>
+		<div  class="mb-3" data-bind="visible: !oriDataLimitChecked()">
+			<span data-trans="monthly_usage"></span>
+			<span data-bind="text:usedDataTextDescData_progress"></span>
+		</div>
+		<div>
+			<label class="colorRed" data-trans="traffic_data_approximated"></label>
+		</div>
+	</div>
+	<form id="trafficAlertForm">
+		<div class="limit-container">
+			<div class="form-title">
+				<h6 data-trans="traffic_data_usage_title"></h6>
+			</div>
+			<div class="content mb-3">
+				<div class="row mb-3">
+					<label class="col-8 col-md-4  col-sm-6  side-right" data-trans="traffic_apply_volume_limit"></label>
+					<div class="col-3 form-switch">
+						<input class="form-check-input" type="checkbox" name="dataLimitSwitch" id="dataLimitSwitch" data-bind="checked : dataLimitChecked"
+						/>
+					</div>
+				</div>
+				<div data-bind='visible: dataLimitChecked()'>
+					<div class="row mb-3">
+						<label class="col-8 col-md-4  col-sm-6  side-right" data-trans="traffic_clear"></label>
+						<div class="col-3 form-switch">
+							<input class="form-check-input" type="checkbox" name="trafficClearEnable" id="trafficClearEnable" data-bind="checked : trafficClearChecked"
+							/>
+						</div>
+					</div>
+					<div class="row mb-3" data-bind="visible:trafficClearChecked()">
+						<label class="col-md-4 col-form-label" for="ddnsAccount" data-trans="traffic_clear_date"></label>
+						<div class="col-md-4 col-12">
+							<input type="text" name="clear_date_input" id="clear_date_input" data-bind="value: clearDate" id="ddnsAccount" class="required form-control"
+							 min="1" max="31" maxlength="2" />
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3" data-bind='visible: dataLimitChecked()'>
+					<label class="col-md-4" data-trans="traffic_data_limit_type"></label>
+					<div class="col-md-3 col-12">
+						<input class="form-check-input" type="radio" name="dataLimitType" id="dataLimitTypeData" data-bind="checked: dataLimitTypeChecked"
+						 value="1" />
+						<label class="form-check-label" for="dataLimitTypeData" data-trans="traffic_data"></label>
+					</div>
+					<div class="col-md-3 col-12">
+						<input class="form-check-input" type="radio" name="dataLimitType" id="dataLimitTypeTime" data-bind="checked: dataLimitTypeChecked"
+						 value="0" />
+						<label class="form-check-label" for="dataLimitTypeTime" data-trans="traffic_time"></label>
+					</div>
+				</div>
+				<div data-bind='visible: dataLimitChecked()'>
+					<div data-bind="visible: dataLimitTypeChecked() == 1">
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="dataUsed" data-trans="curr_data"></label>
+							<div class="col-md-2 col-6">
+								<input type="text" name="dataUsed" data-bind="value: dataUsed" id="dataUsed" class="required form-control" minlength='1'
+								 maxlength='5' />
+								<div id="editUsedDataDiv"></div>
+							</div>
+
+							<div class="col-md-2 col-6">
+								<select id='dataUsedUnit' name="dataUsedUnit" class="form-control form-select" data-bind="value: selectedDataUsedUnit, optionsValue: 'value'">
+									<option value="1">MB</option>
+									<option value="1024">GB</option>
+									<option value="1048576">TB</option>
+								</select>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="limitDataMonth" data-trans="traffic_limit_data"></label>
+							<div class="col-md-2 col-6">
+								<input type="text" name="limitDataMonth" data-bind="value: limitDataMonth" id="limitDataMonth" class="required form-control"
+								 minlength='1' maxlength='5' />
+								<div id="editTotalDataDiv"></div>
+							</div>
+
+							<div class="col-md-2 col-6">
+								<select name="dataUnit" id="selectedDataUnit" class="form-control form-select" data-bind="value: selectedDataUnit, optionsValue: 'value'">
+									<option value="1">MB</option>
+									<option value="1024">GB</option>
+									<option value="1048576">TB</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<div class="row mb-3">
+								<span class="col-md-4 col-form-label" data-trans="traffic_when"></span>
+								<div class="col-md-2 col-6">
+									<input type="text" name="alertDataReach" data-bind="value: alertDataReach" id="alertDataReach" class="required form-control"
+									 minlength='1' maxlength='3' />
+								</div>
+								<div class="col-md-3 col-6 col-form-label">
+									<span class="col-md-4 no_rule" data-trans="traffic_alert_reach_text" data-bind="text: alertDataReachDesc, attr:{'data-trans-data': alertDataReachDescData}">
+									</span>
+								</div>
+								<div id="editAlertDataDiv"></div>
+							</div>
+						</div>
+					</div>
+					<div data-bind="visible: dataLimitTypeChecked() == 0">
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="usedTime" data-trans="traffic_time_used"></label>
+							<div class="col-md-2 col-6">
+								<input type="text" name="usedTime" id='usedTime' data-bind="value: usedTime" id="usedTime" class="required form-control"
+								 minlength='1' maxlength='5' />
+								<div id="editUsedTimeDiv"></div>
+							</div>
+
+							<div class="col-md-2 col-6">
+								<select id='usedTimeUnit' name="usedTimeUnit" data-transid="used_time_unit" class="form-control form-select" data-bind="options: units,value: usedTimeUnit, optionsText: transOption('used_time_unit'), optionsValue: 'value'">
+									<option value="60"></option>
+									<option value="1"></option>
+								</select>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="limitTimeMonth" data-trans="traffic_time_plan"></label>
+							<div class="col-md-2 col-6">
+								<input type="text" name="limitTimeMonth" data-bind="value: limitTimeMonth" id="limitTimeMonth" data-bind="value: limitTimeMonth"
+								 class="required form-control" minlength='1' maxlength='5' />
+								<div id="editTotalTimeDiv"></div>
+							</div>
+							<div class="col-md-2 col-6 col-form-label" data-trans="hours"></div>
+						</div>
+						<div>
+							<div class="row mb-3">
+								<span class="col-md-4 col-form-label" data-trans="traffic_when"></span>
+								<div class="col-md-2 col-6">
+									<input type="text" name="alertTimeReach" data-bind="value: alertTimeReach" id="alertTimeReach" class="required form-control"
+									 minlength='1' maxlength='3' />
+								</div>
+								<div class="col-md-3 col-6 col-form-label">
+									<span class="col-md-4 no_rule" data-trans="traffic_alert_reach_text" data-bind="text: alertTimeReachDesc, attr:{'data-trans-data': alertTimeReachDescData}">
+									</span>
+								</div>
+								<div id="editAlertTimeDiv"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row form-group" style="display: none;">
+					<div class="col-xs-12 ">
+						<p class="checkbox" data-bind="css:{'checkbox_selected': limited_disconnect() == '1'  } ">
+							<input id="limitedDisconnect" name="limitedDisconnect" type="checkbox" data-bind="checked: limited_disconnect() == '1' "
+							 value="1" />
+						</p>
+						<label data-trans="limited_disconnect_desc"></label>
+					</div>
+				</div>
+				<div class="form-buttons">
+					<input type="submit" class="btn btn-primary" data-trans='apply' />
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

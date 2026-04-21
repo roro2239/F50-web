@@ -1,0 +1,30 @@
+<div class="page-title">
+</div>
+<div class="d-none d-xl-block" style="margin-top: 100px;"></div>
+<div class="d-none d-md-block" style="margin-top: 50px;"></div>
+
+<div id="center-container">
+    <form id="frmOTAUpdate">
+        <div class="form-body">
+           <div class="form-title" style="font-weight: 700;" data-trans='privacy_policy'></div>
+           <div class="content" style="padding: 5px 10px;">      
+                <div style="text-indent: 2em;">
+                    <p data-trans="privacy_policy_note_1"></p>
+                </div>
+                <div style="text-indent: 2em;">
+                    <p data-trans="privacy_policy_note_2"></p>
+                </div>
+                <div style="text-indent: 2em;">
+                    <p data-trans="privacy_policy_note_3"></p>
+                </div>
+                <div style="text-indent: 2em;">
+                    <p data-trans="privacy_policy_url"></p>
+                </div>
+                <div class="form-buttons width-100">
+                    <input id="btnReject" type="button" class="btn btn-primary" data-trans="reject" data-bind="click:rejectPrivacyNote , enable: enableFlag"/>
+                    <input id="btnApply" type="submit" class="btn btn-primary" data-trans="finish" data-bind="enable: enableFlag"/> <span id="waiting_time"></span>
+                </div>
+            </div>       
+        </div>
+    </form>
+</div>

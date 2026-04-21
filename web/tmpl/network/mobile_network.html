@@ -1,0 +1,368 @@
+<div class="page-title">
+	<img src="svg_img/network_black.svg"> <h1 data-trans="mobile_network"></h1>
+</div>
+<div id="innerContainer">
+	<form id="form_dial_setting" class="limit-container">
+		<div class="form-title">
+			<h6 data-trans="dial_mode"></h6>
+		</div>
+		<div class="form-title-info">
+			<label  data-trans="dial_mode_info"></label>
+		</div>
+
+		<div class="content form-body">
+			<div class="row">
+				<label class="col-md-4 mb-2" data-trans="dial_mode"></label>
+				<div class="col-md-3 col-12 mb-2" >
+					<input type="radio" name="modeGroup" class="form-check-input" id='auto_mode' value="auto_dial" data-bind="checked: select_mode"/>
+					<label class="form-check-label" for='auto_mode' data-trans='auto_select'></label>
+				</div>
+				<div class="col-md-3 col-12 mb-3">
+					<input type="radio" name="modeGroup" class="form-check-input" id='manual_mode'  value="manual_dial" data-bind="checked: select_mode"/>
+					<label class="form-check-label" for='manual_mode' data-trans='manual_select'></label>
+				</div>
+			</div>
+			<div class="row mb-3" data-bind="visible: select_mode() == 'auto_dial'">
+				<label class="col-8 col-md-4  col-sm-6" data-trans="internation_roaming"></label>
+				<div class="col-3 form-switch">
+					<input class="form-check-input" type="checkbox" name="is_allowed_roaming" id="is_allowed_roaming" data-bind="checked : is_allowed_roaming" />
+				</div>
+			</div>
+			<div class="row mb-3" data-bind="visible: select_mode() == 'auto_dial'">
+				<label style="opacity: 0.6;" class="col-md-12" data-trans="automatic_connect"></label>
+			</div>
+		</div>
+		<div class="form-buttons">
+			<input type="submit" class="btn btn-primary" data-trans='apply' />
+		</div>
+		<div class="form-note">
+			<div class="notes-title">&nbsp;</div>
+			<ul class="notes-content">
+				<li data-trans="dial_mode_note_1"></li>
+				<li data-trans="dial_mode_note_2"></li>
+			</ul>
+		</div>
+	</form>
+	<form  id="form_net_select" class="limit-container">
+		<div class="form-title">
+			<h6 data-trans="net_select"></h6>
+		</div>
+		<div class="form-title-info">
+			<label  data-trans="net_select_info"></label>
+		</div>
+		<div class="content form-body">
+			<div class="row mb-3">
+				<label class="col-md-4 col-form-label" data-trans='network_mode'></label>
+				<div class="col-md-6 col-12">
+					<select data-transid='auto_select_type' id="type" class="form-control form-select" data-bind="options: types, value: selectedType, optionsText: transOption('auto_select_type'), optionsValue: 'value'"></select>
+				</div>
+			</div>
+		</div>
+		<div class="form-buttons">
+			<input type="submit" class="btn btn-primary" data-trans='apply' />
+		</div>
+	</form>
+	<form id="form_apn_setting" class="limit-container">
+		<div class="form-title">
+			<h6 data-trans="apn_setting"></h6>
+		</div>
+		<div class="form-title-info">
+			<label  data-trans="apn_setting_info"></label>
+		</div>
+		<div class="content form-body">
+			<div class="row mb-3">
+				<label class="col-md-4 col-6" data-trans="apn_currentApn"></label>
+				<label class="col-6" data-bind="text: defApn"></label>
+			</div>
+			<div class="row mb-2">
+				<label class="col-md-4 mb-2" data-trans="apn_mode"></label>
+				<div class="col-md-3 col-12 mb-2">
+					<input type="radio" name="apnMode" class="form-check-input" id='apnMode_auto' value="auto" data-bind="checked: apnMode"/>
+					<label class="form-check-label" for='apnMode_auto' data-trans='apn_auto_apn'></label>
+				</div>
+				<div class="col-md-3 col-12 mb-3">
+					<input type="radio" name="apnMode" class="form-check-input" id='apnMode_manual'  value="manual" data-bind="checked: apnMode"/>
+					<label class="form-check-label" for='apnMode_manual' data-trans='apn_manual_apn'></label>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label class="col-md-4 col-form-label" data-trans='apn_profile'></label>
+				<div class="col-md-6 col-11" data-bind="visible: apnMode() == 'auto'">
+					<select name="autoProfile" id="autoProfile" class="form-control form-select" data-bind="options: autoProfiles, value: selectedAutoProfile, optionsText: 'text', optionsValue: 'value', visible: apnMode() == 'auto'"></select>
+				</div>
+				<div class="col-md-6 col-12" data-bind="visible: apnMode() == 'manual'">
+					<select name="profile" id="profile" class="form-control form-select" data-bind="options: profiles, value: selectedProfile, optionsText: 'text', optionsValue: 'value', visible: apnMode() == 'manual'"></select>
+				</div>
+				<div class="col-1 col-form-label"  style="padding-left: 0px;" data-bind="visible: apnMode() == 'auto'">
+					<a data-bind="click: viewAct" style="cursor: pointer;margin-right: 12px;" ><img src="./img/search_text.png?v=1736213398713" height="24"></a>
+				</div>
+				<div class="col-md-2 col-12 md-text-right col-form-label" data-bind="visible: apnMode() == 'manual'">
+					<a data-bind="click: addAct" style="cursor: pointer;margin-right: 12px;" ><img src="./img/add_circle.png?v=1736213398713" height="24"></a>
+					<a data-bind="click: editAct" style="cursor: pointer;margin-right: 12px;" ><img src="./img/note.png?v=1736213398713" height="24"></a>
+					<a data-bind="click: deleteAct" style="cursor: pointer;" ><img src="./img/delete.png?v=1736213398713" height="24"></a>
+				</div>
+			</div>
+			<div class="form-buttons">
+				<input type="submit" class="btn btn-primary" data-trans='set_default' />
+			</div>
+			<div class="form-note">
+				<div class="notes-title">&nbsp;</div>
+				<ul class="notes-content">
+					<li data-trans="apn_mode_note_1"></li>
+				</ul>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div id="addApnModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-trans="add_new"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="saveAddApnForm">
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="profile_name_add" data-trans="apn_profile_name"></label>
+						<div class="col-md-6 col-12">
+							<input type="text" name="profile_name_add" data-bind="value: profileName" id="profile_name_add" class="required form-control" maxlength="63"/>
+						</div>
+					</div>
+					<div id="ipv4_section" data-bind="visible: selectedPdpType() != 'IPv6'">
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_ipv4_apn_add" data-trans="apn"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_ipv4_apn_add" data-bind="value: apn" id="apn_ipv4_apn_add" class="required form-control" maxlength="62"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_user_name_ipv4_add" data-trans="apn_user_name"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_user_name_ipv4_add" class="form-control" data-bind="value: username" id="apn_user_name_ipv4_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_password_ipv4_add" data-trans="apn_password"></label>
+							<div class="col-md-6 col-12">
+								<input type="password" name="apn_password_ipv4_add" class="form-control" data-bind="value: password" id="apn_password_ipv4_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_authentication_ipv4_add" data-trans="apn_authentication"></label>
+							<div class="col-md-6 col-12">
+								<select name="apn_authentication_ipv4_add" id="apn_authentication_ipv4_add" data-transid="apn_authentication" class="form-control form-select" data-bind="options: authModes, value: selectedAuthentication, optionsText: transOption('apn_authentication'), optionsValue: 'value'"></select>
+							</div>
+						</div>
+					</div>
+					<div data-bind="visible: selectedPdpType() == 'IPv6'">
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_ipv6_apn_add" data-trans="apn"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_ipv6_apn_add" data-bind="value: apnV6" id="apn_ipv6_apn_add" class="required form-control" maxlength="62"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_user_name_ipv6_add" data-trans="apn_user_name"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_user_name_ipv6_add" class="form-control" data-bind="value: usernameV6" id="apn_user_name_ipv6_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_password_ipv6_add" data-trans="apn_password"></label>
+							<div class="col-md-6 col-12">
+								<input type="password" name="apn_password_ipv6_add" class="form-control" data-bind="value: passwordV6" id="apn_password_ipv6_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_authentication_ipv6_add" data-trans="apn_authentication"></label>
+							<div class="col-md-6 col-12">
+								<select name="apn_authentication_ipv6_add" id="apn_authentication_ipv6_add" data-transid="apn_authentication" class="form-control form-select" data-bind="options: authModes, value: selectedAuthenticationV6, optionsText: transOption('apn_authentication'), optionsValue: 'value'"></select>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_pdp_type_add" data-trans="apn_pdp_type"></label>
+						<div class="col-md-6 col-12">
+							<select name="apn_pdp_type_add" id="apn_pdp_type_add" class="form-control form-select" data-bind="options: pdpTypes, value: selectedPdpType, optionsText: 'text', optionsValue: 'value'"></select>&nbsp;
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-12 col-12">
+							<input id="apnSetDefault" style="width: 24px; height: 24px;" class="form-check-input" type="checkbox" data-bind="checked:apnSetDefault">
+							<label class="col-md-6 col-6" style="margin-top: 4px;" data-trans="set_default"></label>
+						</div>
+					</div>
+                </form>   
+            </div>
+            <div class="modal-footer center-button">
+                <input type="button" class="btn btn-primary" data-trans="save" data-bind="click: saveAddApn"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editApnModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-trans="edit_new_apn"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="saveEditApnForm">
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="profile_name_add" data-trans="apn_profile_name"></label>
+						<div class="col-md-6 col-12">
+							<input type="text" name="profile_name_add" data-bind="value: profileName, disable: checkInputDisable" id="profile_name_add" class="required form-control" maxlength="63"/>
+						</div>
+					</div>
+					<div id="ipv4_section" data-bind="visible: selectedPdpType() != 'IPv6'">
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_ipv4_apn_add" data-trans="apn"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_ipv4_apn_add" data-bind="value: apn, disable: checkInputDisable" id="apn_ipv4_apn_add" class="required form-control" maxlength="62"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_user_name_ipv4_add" data-trans="apn_user_name"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_user_name_ipv4_add" class="form-control" data-bind="value: username, disable: checkInputDisable" id="apn_user_name_ipv4_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_password_ipv4_add" data-trans="apn_password"></label>
+							<div class="col-md-6 col-12">
+								<input type="password" name="apn_password_ipv4_add" class="form-control" data-bind="value: password, disable: checkInputDisable" id="apn_password_ipv4_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_authentication_ipv4_add" data-trans="apn_authentication"></label>
+							<div class="col-md-6 col-12">
+								<select name="apn_authentication_ipv4_add" id="apn_authentication_ipv4_add" data-transid="apn_authentication" class="form-control form-select" data-bind="options: authModes, value: selectedAuthentication, optionsText: transOption('apn_authentication'), optionsValue: 'value', disable: checkInputDisable"></select>
+							</div>
+						</div>
+					</div>
+					<div data-bind="visible: selectedPdpType() == 'IPv6'">
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_ipv6_apn_add" data-trans="apn"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_ipv6_apn_add" data-bind="value: apnV6, disable: checkInputDisable" id="apn_ipv6_apn_add" class="required form-control" maxlength="62"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_user_name_ipv6_add" data-trans="apn_user_name"></label>
+							<div class="col-md-6 col-12">
+								<input type="text" name="apn_user_name_ipv6_add" class="form-control" data-bind="value: usernameV6, disable: checkInputDisable" id="apn_user_name_ipv6_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_password_ipv6_add" data-trans="apn_password"></label>
+							<div class="col-md-6 col-12">
+								<input type="password" name="apn_password_ipv6_add" class="form-control" data-bind="value: passwordV6, disable: checkInputDisable" id="apn_password_ipv6_add" maxlength="64"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-md-4 col-form-label" for="apn_authentication_ipv6_add" data-trans="apn_authentication"></label>
+							<div class="col-md-6 col-12">
+								<select name="apn_authentication_ipv6_add" id="apn_authentication_ipv6_add" data-transid="apn_authentication" class="form-control form-select" data-bind="options: authModes, value: selectedAuthenticationV6, optionsText: transOption('apn_authentication'), optionsValue: 'value', disable: checkInputDisable"></select>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_pdp_type_add" data-trans="apn_pdp_type"></label>
+						<div class="col-md-6 col-12">
+							<select name="apn_pdp_type_add" id="apn_pdp_type_add" class="form-control form-select" data-bind="options: pdpTypes, value: selectedPdpType, optionsText: 'text', optionsValue: 'value', disable: checkInputDisable"></select>&nbsp;
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-12 col-12">
+							<input id="apnSetDefault" style="width: 24px; height: 24px;" class="form-check-input" type="checkbox" data-bind="checked:apnSetDefault, disable: checkInputDisable">
+							<label class="col-md-6 col-6" style="margin-top: 4px;" data-trans="set_default"></label>
+						</div>
+					</div>
+                </form>   
+            </div>
+            <div class="modal-footer center-button">
+                <input type="button" class="btn btn-primary" data-trans="save" data-bind="click: saveEditApn, disable: checkInputDisable"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="viewApnModel" class="modal modal-md" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-trans="view_apn"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="viewApnModelBody">
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" for="profile_name_add" data-trans="apn_profile_name"></label>
+					<div class="col-md-6 col-12">
+						<input type="text" name="profile_name_add" data-bind="value: profileName" id="profile_name_add" class="required form-control" maxlength="63"/>
+					</div>
+				</div>
+				<div id="ipv4_section" data-bind="visible: selectedPdpType() != 'IPv6'">
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_ipv4_apn_add" data-trans="apn"></label>
+						<div class="col-md-6 col-12">
+							<input type="text" name="apn_ipv4_apn_add" data-bind="value: apn" id="apn_ipv4_apn_add" class="required form-control" maxlength="62"/>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_user_name_ipv4_add" data-trans="apn_user_name"></label>
+						<div class="col-md-6 col-12">
+							<input type="text" name="apn_user_name_ipv4_add" class="form-control" data-bind="value: username" id="apn_user_name_ipv4_add" maxlength="64"/>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_password_ipv4_add" data-trans="apn_password"></label>
+						<div class="col-md-6 col-12">
+							<input type="password" name="apn_password_ipv4_add" class="form-control" data-bind="value: password" id="apn_password_ipv4_add" maxlength="64"/>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_authentication_ipv4_add" data-trans="apn_authentication"></label>
+						<div class="col-md-6 col-12">
+							<select name="apn_authentication_ipv4_add" id="apn_authentication_ipv4_add" data-transid="apn_authentication" class="form-control form-select" data-bind="options: authModes, value: selectedAuthentication, optionsText: transOption('apn_authentication'), optionsValue: 'value'"></select>
+						</div>
+					</div>
+				</div>
+				<div data-bind="visible: selectedPdpType() == 'IPv6'">
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_ipv6_apn_add" data-trans="apn"></label>
+						<div class="col-md-6 col-12">
+							<input type="text" name="apn_ipv6_apn_add" data-bind="value: apnV6" id="apn_ipv6_apn_add" class="required form-control" maxlength="62"/>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_user_name_ipv6_add" data-trans="apn_user_name"></label>
+						<div class="col-md-6 col-12">
+							<input type="text" name="apn_user_name_ipv6_add" class="form-control" data-bind="value: usernameV6" id="apn_user_name_ipv6_add" maxlength="64"/>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_password_ipv6_add" data-trans="apn_password"></label>
+						<div class="col-md-6 col-12">
+							<input type="password" name="apn_password_ipv6_add" class="form-control" data-bind="value: passwordV6" id="apn_password_ipv6_add" maxlength="64"/>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-md-4 col-form-label" for="apn_authentication_ipv6_add" data-trans="apn_authentication"></label>
+						<div class="col-md-6 col-12">
+							<select name="apn_authentication_ipv6_add" id="apn_authentication_ipv6_add" data-transid="apn_authentication" class="form-control form-select" data-bind="options: authModes, value: selectedAuthenticationV6, optionsText: transOption('apn_authentication'), optionsValue: 'value'"></select>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label class="col-md-4 col-form-label" for="apn_pdp_type_add" data-trans="apn_pdp_type"></label>
+					<div class="col-md-6 col-12">
+						<select name="apn_pdp_type_add" id="apn_pdp_type_add" class="form-control form-select" data-bind="options: pdpTypes, value: selectedPdpType, optionsText: 'text', optionsValue: 'value'"></select>&nbsp;
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
