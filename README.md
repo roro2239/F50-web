@@ -2,6 +2,8 @@ F50-web 使用说明
 
 项目地址：https://github.com/roro2239/F50-web
 
+码云地址：https://gitee.com/su-su2239/F50-web
+
 上游来源：https://gitee.com/atwat/F50-web/tree/master/web
 
 本项目基于上述项目的 Web 资源与相关实现改造，调整为当前仓库维护的构建与运行方式。

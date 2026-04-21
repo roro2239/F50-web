@@ -1,0 +1,116 @@
+name: 同步 Release 到 Gitee
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: 同步 Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 获取最新 Release
+        id: release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let release;
+            if (context.eventName === 'release') {
+              release = context.payload.release;
+            } else {
+              const { data: releases } = await github.rest.repos.listReleases({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 1
+              });
+              if (!releases.length) {
+                core.setFailed('没有找到可同步的 GitHub Release');
+                return;
+              }
+              release = releases[0];
+            }
+            core.setOutput('id', release.id);
+            core.setOutput('tag', release.tag_name);
+            core.setOutput('name', release.name || release.tag_name);
+            core.setOutput('body', release.body || '');
+
+      - name: 同步到 Gitee
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITEE_TOKEN: ${{ secrets.GITEE }}
+          GH_RELEASE_ID: ${{ steps.release.outputs.id }}
+          TAG: ${{ steps.release.outputs.tag }}
+          NAME: ${{ steps.release.outputs.name }}
+          BODY: ${{ steps.release.outputs.body }}
+          GITEE_OWNER: su-su2239
+          GITEE_REPO: F50-web
+        run: |
+          set -euo pipefail
+          echo "同步 Release: ${TAG}"
+
+          if [ -z "${GITEE_TOKEN}" ]; then
+            echo "缺少 secrets.GITEE"
+            exit 1
+          fi
+
+          echo "检查 Gitee 已存在 Release..."
+          existing="$(curl -s "https://gitee.com/api/v5/repos/${GITEE_OWNER}/${GITEE_REPO}/releases/tags/${TAG}?access_token=${GITEE_TOKEN}")"
+          existing_id="$(echo "${existing}" | jq -r '.id // empty')"
+          if [ -n "${existing_id}" ]; then
+            echo "删除已存在的 Release: ${existing_id}"
+            curl -s -X DELETE "https://gitee.com/api/v5/repos/${GITEE_OWNER}/${GITEE_REPO}/releases/${existing_id}?access_token=${GITEE_TOKEN}"
+            sleep 5
+          fi
+
+          echo "创建 Gitee Release..."
+          response="$(curl -s -X POST \
+            "https://gitee.com/api/v5/repos/${GITEE_OWNER}/${GITEE_REPO}/releases" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg token "${GITEE_TOKEN}" \
+              --arg tag "${TAG}" \
+              --arg name "${NAME}" \
+              --arg body "${BODY}" \
+              '{access_token: $token, tag_name: $tag, name: $name, body: $body, target_commitish: "main", prerelease: false}')")"
+
+          echo "Gitee API 响应: ${response}"
+          gitee_release_id="$(echo "${response}" | jq -r '.id // empty')"
+          if [ -z "${gitee_release_id}" ] || [ "${gitee_release_id}" = "null" ]; then
+            echo "创建 Gitee Release 失败"
+            exit 1
+          fi
+
+          mkdir -p assets
+          assets="$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/${GH_RELEASE_ID}/assets")"
+
+          echo "${assets}" | jq -r '.[] | @base64' | while read -r item; do
+            name="$(echo "${item}" | base64 -d | jq -r '.name')"
+            url="$(echo "${item}" | base64 -d | jq -r '.url')"
+            echo "下载 ${name}..."
+            curl -L -H "Authorization: token ${GITHUB_TOKEN}" \
+              -H "Accept: application/octet-stream" \
+              -o "assets/${name}" "${url}"
+
+            echo "上传 ${name} 到 Gitee..."
+            upload_url="https://gitee.com/api/v5/repos/${GITEE_OWNER}/${GITEE_REPO}/releases/${gitee_release_id}/attach_files"
+            for attempt in 1 2 3; do
+              echo "上传尝试 ${attempt}/3..."
+              upload_response="$(curl -w "\nHTTP_CODE:%{http_code}" \
+                --connect-timeout 60 \
+                --max-time 1800 \
+                -X POST "${upload_url}" \
+                -F "access_token=${GITEE_TOKEN}" \
+                -F "file=@assets/${name}")"
+              http_code="$(echo "${upload_response}" | grep "HTTP_CODE:" | cut -d: -f2)"
+              echo "上传响应: ${upload_response}"
+              if [ "${http_code}" = "201" ] || [ "${http_code}" = "200" ]; then
+                echo "上传成功: ${name}"
+                break
+              fi
+              echo "上传失败 HTTP ${http_code}，等待 10 秒后重试..."
+              sleep 10
+            done
+          done
