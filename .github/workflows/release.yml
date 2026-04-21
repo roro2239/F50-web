@@ -1,0 +1,75 @@
+name: 构建并发布
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: 构建 Android arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 拉取源码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 配置 Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: 安装 Android NDK
+        run: |
+          set -euo pipefail
+          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
+          "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865"
+
+      - name: 构建 arm64 二进制
+        env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/29.0.14206865
+          CGO_ENABLED: "1"
+          GOOS: android
+          GOARCH: arm64
+        run: |
+          set -euo pipefail
+          export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
+          mkdir -p dist
+          go build -trimpath -o dist/f50-web-arm64 .
+
+      - name: 生成更新日志
+        run: |
+          set -euo pipefail
+          current_ref="${GITHUB_REF_NAME}"
+          previous_tag="$(git describe --tags --abbrev=0 "${current_ref}^" 2>/dev/null || true)"
+
+          {
+            echo "## 更新日志"
+            echo
+            if [ -n "${previous_tag}" ]; then
+              git log --pretty=format:'- %s (%h)' "${previous_tag}..${current_ref}"
+            else
+              git log --pretty=format:'- %s (%h)' "${current_ref}"
+            fi
+          } > release-notes.md
+
+      - name: 发布 Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release upload "${GITHUB_REF_NAME}" dist/f50-web-arm64 --clobber
+            gh release edit "${GITHUB_REF_NAME}" --notes-file release-notes.md
+          else
+            gh release create "${GITHUB_REF_NAME}" dist/f50-web-arm64 \
+              --title "${GITHUB_REF_NAME}" \
+              --notes-file release-notes.md
+          fi

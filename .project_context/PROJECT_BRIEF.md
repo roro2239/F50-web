@@ -34,8 +34,8 @@ F50-web 是面向中兴 F50 设备的 Go 后台程序，负责接管原设备 We
 
 # 当前任务状态
 
-已完成从 `Termux` 运行时到“原生二进制 + 原生目录 + 启动脚本”模式的基础改造。当前代码已切换到统一运行目录、原生 `sh`，并已移除 `ddns-go`、`AList` 运行链路，构建出 `dist/f50-web-arm64`。
+已完成从 `Termux` 运行时到“原生二进制 + 原生目录”模式的基础改造。当前代码已切换到统一运行目录、原生 `sh`，并已移除 `ddns-go`、`AList` 的前后端入口。本地构建产物已清理，新增 GitHub Actions release workflow 自动构建 `Android arm64` 二进制并用当前版本提交日志发布更新日志。
 
 # 下一步
 
-将 `dist/f50-web-arm64` 与 `scripts/start-android.sh`、可选的 `bin/ttyd` 一并部署到设备目录，使用 root 执行启动脚本。
+推送 `v*` 标签或手动触发 `构建并发布` workflow，生成并发布 `f50-web-arm64`。
