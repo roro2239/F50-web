@@ -246,7 +246,7 @@
                                 <span id="maxTemp">0.00°C</span>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                        <div class="col-12 col-sm-6 col-md-12 col-xl-6" data-bind="visible: !isF50()">
                             <div class="top_data_1">
                                 <label data-trans="battery_level"></label>
                             </div>
@@ -304,7 +304,7 @@
                     <h6 data-trans="features"></h6>
                 </div>
                 <div id="22" class="bottom_left row">
-                    <div class="col-12 col-sm-6 col-xl-12 col-xxxl-6">
+                    <div class="col-12 col-sm-6 col-xl-12 col-xxxl-6" data-bind="visible: !isF50()">
                         <div class="FeaturesContainer" style="background: rgba(64,199,214,0.12);">
                             <a href="#nfc_setting">
                                 <div class="row bottom_left_1">
