@@ -14,6 +14,7 @@
   const LATEST_API =
     'https://gitee.com/api/v5/repos/su-su2239/F50-web/releases/latest';
   const PACKAGE_NAME = 'f50-web-arm64-package.zip';
+  const PLUGIN_NAME = 'f50-web-ufi-tools-plugin.js';
 
   if (document.getElementById(CARD_ID)) return;
 
@@ -77,6 +78,21 @@
       10000,
     );
     return res.content || '';
+  };
+
+  const unregisterPlugin = async () => {
+    if (typeof getCustomHead !== 'function' || typeof setCustomHead !== 'function') {
+      return false;
+    }
+    const current = await getCustomHead();
+    if (!current) return true;
+    const blockRegex = new RegExp(
+      `<!--\\s*\\[KANO_PLUGIN_START\\]\\s*${PLUGIN_NAME}\\s*-->[\\s\\S]*?<!--\\s*\\[KANO_PLUGIN_END\\]\\s*${PLUGIN_NAME}\\s*-->\\s*`,
+      'g',
+    );
+    const next = current.replace(blockRegex, '').trim();
+    const res = await setCustomHead(next);
+    return !!res && res.result === 'success';
   };
 
   const refreshStatus = async () => {
@@ -300,8 +316,19 @@ fi
       `,
       60000,
     );
-    toast(res.success ? '已卸载并恢复原后台' : `卸载失败：${res.content}`, res.success ? 'green' : 'red');
-    setTimeout(refreshStatus, 2500);
+    if (!res.success) {
+      toast(`卸载失败：${res.content}`, 'red');
+      setTimeout(refreshStatus, 2500);
+      return;
+    }
+    const unregistered = await unregisterPlugin();
+    toast(
+      unregistered ? '已卸载并清理插件入口' : '已卸载后台，插件入口需手动刷新清理',
+      unregistered ? 'green' : 'yellow',
+    );
+    setTimeout(() => {
+      location.reload();
+    }, 1200);
   };
 
   const toggleBoot = async () => {
