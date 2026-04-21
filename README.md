@@ -20,3 +20,19 @@ F50-web 使用说明
 - AT命令：便捷调用设备底层通信指令
 - 短信转发：可将短信同步转发至指定目标（建议使用termux-sms-send或curl命令）
 - ttyd：基于网页的终端访问（含root权限）
+
+三、后台保活运行
+
+推荐使用发布包 `f50-web-arm64-package.zip`，解压到 `/data/local/tmp/f50-web/` 后执行：
+
+```sh
+su -c 'cd /data/local/tmp/f50-web && chmod 755 f50-web-arm64 scripts/*.sh && ./scripts/start-android.sh'
+```
+
+停止服务：
+
+```sh
+su -c 'cd /data/local/tmp/f50-web && ./scripts/stop-android.sh'
+```
+
+保活脚本会检测主进程状态，主进程退出后会自动重新拉起。

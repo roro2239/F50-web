@@ -69,15 +69,25 @@ jobs:
 
       - name: 构建 arm64 二进制
         env:
-          ANDROID_NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/29.0.14206865
           CGO_ENABLED: "1"
           GOOS: android
           GOARCH: arm64
         run: |
           set -euo pipefail
+          export ANDROID_NDK_HOME="${ANDROID_HOME}/ndk/29.0.14206865"
           export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
+          test -x "${CC}"
           mkdir -p dist
           go build -trimpath -o dist/f50-web-arm64 .
+          cp scripts/f50-web-watchdog.sh dist/f50-web-watchdog.sh
+          cp scripts/start-android.sh dist/start-android.sh
+          cp scripts/stop-android.sh dist/stop-android.sh
+          mkdir -p dist/f50-web-arm64-package/scripts
+          cp dist/f50-web-arm64 dist/f50-web-arm64-package/f50-web-arm64
+          cp scripts/f50-web-watchdog.sh dist/f50-web-arm64-package/scripts/f50-web-watchdog.sh
+          cp scripts/start-android.sh dist/f50-web-arm64-package/scripts/start-android.sh
+          cp scripts/stop-android.sh dist/f50-web-arm64-package/scripts/stop-android.sh
+          (cd dist && zip -r f50-web-arm64-package.zip f50-web-arm64-package)
 
       - name: 生成更新日志
         run: |
@@ -101,10 +111,21 @@ jobs:
         run: |
           set -euo pipefail
           if gh release view "${RELEASE_VERSION}" >/dev/null 2>&1; then
-            gh release upload "${RELEASE_VERSION}" dist/f50-web-arm64 --clobber
+            gh release upload "${RELEASE_VERSION}" \
+              dist/f50-web-arm64 \
+              dist/f50-web-watchdog.sh \
+              dist/start-android.sh \
+              dist/stop-android.sh \
+              dist/f50-web-arm64-package.zip \
+              --clobber
             gh release edit "${RELEASE_VERSION}" --notes-file release-notes.md
           else
-            gh release create "${RELEASE_VERSION}" dist/f50-web-arm64 \
+            gh release create "${RELEASE_VERSION}" \
+              dist/f50-web-arm64 \
+              dist/f50-web-watchdog.sh \
+              dist/start-android.sh \
+              dist/stop-android.sh \
+              dist/f50-web-arm64-package.zip \
               --title "${RELEASE_VERSION}" \
               --notes-file release-notes.md
           fi
