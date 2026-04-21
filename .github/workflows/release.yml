@@ -5,6 +5,11 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      version:
+        description: "发布版本号，例如 v1.0.0"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -20,6 +25,36 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 确定发布版本
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            version="${{ github.event.inputs.version }}"
+          else
+            version="${GITHUB_REF_NAME}"
+          fi
+
+          if ! printf '%s' "${version}" | grep -Eq '^v[0-9]+(\.[0-9]+){1,2}([-.][0-9A-Za-z.-]+)?$'; then
+            echo "版本号格式错误: ${version}"
+            echo "请使用类似 v1.0.0 的格式"
+            exit 1
+          fi
+
+          echo "RELEASE_VERSION=${version}" >> "${GITHUB_ENV}"
+
+      - name: 创建手动发布标签
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git rev-parse "${RELEASE_VERSION}" >/dev/null 2>&1; then
+            echo "标签已存在: ${RELEASE_VERSION}"
+          else
+            git tag "${RELEASE_VERSION}"
+            git push origin "${RELEASE_VERSION}"
+          fi
+
       - name: 配置 Go
         uses: actions/setup-go@v5
         with:
@@ -29,7 +64,7 @@ jobs:
       - name: 安装 Android NDK
         run: |
           set -euo pipefail
-          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
+          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865"
 
       - name: 构建 arm64 二进制
@@ -47,7 +82,7 @@ jobs:
       - name: 生成更新日志
         run: |
           set -euo pipefail
-          current_ref="${GITHUB_REF_NAME}"
+          current_ref="${RELEASE_VERSION}"
           previous_tag="$(git describe --tags --abbrev=0 "${current_ref}^" 2>/dev/null || true)"
 
           {
@@ -65,11 +100,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
-            gh release upload "${GITHUB_REF_NAME}" dist/f50-web-arm64 --clobber
-            gh release edit "${GITHUB_REF_NAME}" --notes-file release-notes.md
+          if gh release view "${RELEASE_VERSION}" >/dev/null 2>&1; then
+            gh release upload "${RELEASE_VERSION}" dist/f50-web-arm64 --clobber
+            gh release edit "${RELEASE_VERSION}" --notes-file release-notes.md
           else
-            gh release create "${GITHUB_REF_NAME}" dist/f50-web-arm64 \
-              --title "${GITHUB_REF_NAME}" \
+            gh release create "${RELEASE_VERSION}" dist/f50-web-arm64 \
+              --title "${RELEASE_VERSION}" \
               --notes-file release-notes.md
           fi
